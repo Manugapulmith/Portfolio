@@ -10,8 +10,10 @@
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     
-    <!-- Babel for JSX -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Babel for JSX (pinned to 7.x — unpkg's unversioned "latest" now resolves to Babel 8,
+         which defaults to the automatic JSX runtime and injects an ES "import" statement
+         that breaks a plain non-module <script> tag) -->
+    <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
 
     <!-- Framer Motion -->
     <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
@@ -246,7 +248,7 @@
                                 <motion.a
                                     href="Manuga_Pulmith_CV.pdf"
                                     target="_blank"
-				   rel="noreferrer"
+                                    rel="noreferrer"
                                     whileHover={{ scale: 1.05 }}
                                     whileTap={{ scale: 0.95 }}
                                     className="px-8 py-4 glass rounded-full font-semibold hover:bg-white/10 transition-colors flex items-center gap-2 text-white border border-white/20"
@@ -480,8 +482,9 @@
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                             >
-                                <div className="h-48 relative overflow-hidden"><img src="Home page 01.webp" alt="TravelWithMaalaka" style={{width:"100%",height:"100%",objectFit:"cover",position:"absolute",top:0,left:0} } /><div style={{position:"absolute",inset:0,background:"rgba(0,0,0,0.25)"}}></div>
-                                    <div className="absolute inset-0 bg-[url('Home page 01.webp')] bg-cover bg-center opacity-40 group-hover:scale-105 transition-transform duration-700"></div>
+                                <div className="h-48 relative overflow-hidden">
+                                    <img src="Home page 01.webp" alt="TravelWithMaalaka" style={{width:"100%",height:"100%",objectFit:"cover",position:"absolute",top:0,left:0}} />
+                                    <div style={{position:"absolute",inset:0,background:"rgba(0,0,0,0.25)"}}></div>
                                     <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent"></div>
                                 </div>
                                 <div className="p-6">
@@ -508,7 +511,9 @@
                                 viewport={{ once: true }}
                                 transition={{ delay: 0.2 }}
                             >
-                                <div className="h-48 relative overflow-hidden"><img src="modern-weather-app.webp" alt="Weather App" style={{width:"100%",height:"100%",objectFit:"cover",position:"absolute",top:0,left:0}} /><div style={{position:"absolute",inset:0,background:"rgba(0,0,0,0.25)"}}></div>
+                                <div className="h-48 relative overflow-hidden">
+                                    <img src="modern-weather-app.webp" alt="Weather App" style={{width:"100%",height:"100%",objectFit:"cover",position:"absolute",top:0,left:0}} />
+                                    <div style={{position:"absolute",inset:0,background:"rgba(0,0,0,0.25)"}}></div>
                                     <Icons.Globe size={64} className="text-white/10 group-hover:text-cyan-500/20 transition-colors duration-500" />
                                     <div className="absolute bottom-4 right-4 bg-black/50 backdrop-blur px-3 py-1 rounded-full text-xs font-mono text-gray-300 border border-white/10">
                                         React / API
@@ -781,11 +786,11 @@
 
         const Footer = () => (
             <footer className="py-8 border-t border-white/10 bg-black text-center">
-                <p className="text-gray-500 text-sm">
+                <div className="text-gray-500 text-sm">
                     &copy; {new Date().getFullYear()} Manuga Pulmith Galbadage. All rights reserved.
                     <p className="text-sm mt-1">Designed &amp; Built by <span className="text-gradient font-semibold">Manuga Pulmith</span></p>
-				</p>
-                            </footer>
+                </div>
+            </footer>
         );
 
         const App = () => {
