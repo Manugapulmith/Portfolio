@@ -412,9 +412,6 @@
                 { title: "Google Data Analytics Professional Certificate", issuer: "Google", detail: "Course 3 In Progress" },
                 { title: "Intermediate Python Course", issuer: "UOM", detail: "Ongoing" },
                 { title: " Business Strategy Specialization", issuer: "University of Virginia", detail: "Ongoing" },
-                
-                
-                
             ];
 
             return (
@@ -540,7 +537,7 @@
                                 </div>
                             </motion.div>
 
-                            {/* Data Dashboard Project - In Development */}
+                            {/* Data Dashboard Project */}
                             <motion.div 
                                 className="group glass-high rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-orange-500/10 transition-all duration-500 border border-orange-500/20"
                                 initial={{ opacity: 0, y: 30 }}
@@ -548,17 +545,13 @@
                                 viewport={{ once: true }}
                                 transition={{ delay: 0.4 }}
                             >
-                                <div className="h-48 bg-gradient-to-br from-orange-900/40 to-slate-900 relative flex items-center justify-center overflow-hidden">
-                                    {/* Animated chart bars */}
-                                    <div className="flex items-end gap-2 h-20 opacity-20 group-hover:opacity-40 transition-opacity duration-500">
-                                        {[40, 65, 45, 80, 55, 70, 90, 60].map((h, i) => (
-                                            <div key={i} className="w-4 bg-gradient-to-t from-orange-500 to-yellow-400 rounded-t" style={{ height: `${h}%` }}></div>
-                                        ))}
-                                    </div>
+                                <div className="h-48 relative overflow-hidden">
+                                    <img src="analytics-dashboard-preview.png" alt="Analytics Dashboard preview" style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"top",position:"absolute",top:0,left:0}} />
+                                    <div style={{position:"absolute",inset:0,background:"rgba(0,0,0,0.35)"}}></div>
                                     <div className="absolute top-4 left-4">
                                         <span className="inline-flex items-center gap-1.5 bg-orange-500/20 border border-orange-500/40 text-orange-400 text-xs font-bold px-3 py-1 rounded-full">
                                             <span className="w-1.5 h-1.5 bg-orange-400 rounded-full animate-pulse"></span>
-                                            <a href= "index00.html">In Development </a>
+                                            In Development
                                         </span>
                                     </div>
                                     <div className="absolute bottom-4 right-4 bg-black/50 backdrop-blur px-3 py-1 rounded-full text-xs font-mono text-gray-300 border border-white/10">
@@ -575,9 +568,9 @@
                                         <span className="text-xs px-2 py-1 rounded bg-orange-500/10 text-orange-400 border border-orange-500/20">React</span>
                                         <span className="text-xs px-2 py-1 rounded bg-orange-500/10 text-orange-400 border border-orange-500/20">Data Viz</span>
                                     </div>
-                                    <span className="inline-flex items-center text-orange-400 font-semibold text-sm">
-                                        <Icons.Code size={16} className="mr-2" /> In Development
-                                    </span>
+                                    <a href="index00.html" target="_blank" rel="noreferrer" className="inline-flex items-center text-orange-400 font-semibold text-sm hover:text-orange-300 transition-colors">
+                                        <Icons.ExternalLink size={16} className="mr-2" /> View Live Preview
+                                    </a>
                                 </div>
                             </motion.div>
                         </div>
