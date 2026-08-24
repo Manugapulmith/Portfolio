@@ -1,816 +1,1285 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manuga Pulmith Galbadage | Portfolio</title>
-    <meta name="description" content="Portfolio of Manuga Pulmith Galbadage - Aspiring Frontend Developer & Data Analytics Learner">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Manuga Pulmith Galbadage — Frontend Developer &amp; Data Analytics Learner</title>
+<meta name="description" content="Portfolio of Manuga Pulmith Galbadage — aspiring frontend developer, data analytics learner and digital creator based in Sri Lanka. Projects, skills, certifications and design work.">
+<meta property="og:title" content="Manuga Pulmith Galbadage — Portfolio">
+<meta property="og:description" content="Aspiring frontend developer, data analytics learner and digital creator. See projects, skills and certifications.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#05060a">
 
-    <!-- React & ReactDOM -->
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
+<script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+<script src="https://unpkg.com/three@0.128.0/build/three.min.js"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          void: '#05060a',
+          panel: '#0d0f16',
+          panel2: '#12141c',
+          ink: '#eef1f6',
+          inkdim: '#8a90a3',
+          inkfaint: '#565c6e',
+          cyan: '#5EEAD4',
+          amber: '#F5A623',
+          violet: '#6D5DFC',
+        },
+        fontFamily: {
+          display: ['"Space Grotesk"', 'sans-serif'],
+          body: ['Inter', 'sans-serif'],
+          mono: ['"IBM Plex Mono"', 'monospace'],
+        },
+      }
+    }
+  }
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
-    <!-- Babel for JSX (pinned to 7.x — unpkg's unversioned "latest" now resolves to Babel 8,
-         which defaults to the automatic JSX runtime and injects an ES "import" statement
-         that breaks a plain non-module <script> tag) -->
-    <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
+<style>
+  :root{
+    --void:#05060a; --panel:#0d0f16; --panel2:#12141c;
+    --ink:#eef1f6; --inkdim:#8a90a3; --inkfaint:#565c6e;
+    --cyan:#5EEAD4; --amber:#F5A623; --violet:#6D5DFC;
+    --line:rgba(255,255,255,0.09);
+  }
+  *{box-sizing:border-box;}
+  html,body{background:var(--void); overflow-x:hidden;}
+  body{
+    font-family:'Inter', sans-serif; color:var(--ink);
+    cursor:none;
+  }
+  @media (max-width: 860px), (hover:none){ body{ cursor:auto; } }
+  ::selection{ background: rgba(94,234,212,0.25); color:#fff; }
 
-    <!-- Framer Motion -->
-    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+  ::-webkit-scrollbar{ width:8px; }
+  ::-webkit-scrollbar-track{ background:var(--void); }
+  ::-webkit-scrollbar-thumb{ background:#242833; border-radius:4px; }
+  ::-webkit-scrollbar-thumb:hover{ background:#3a3f4d; }
 
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        dark: '#0a0a0a',
-                        card: '#121212',
-                        primary: '#6366f1', // Indigo
-                        secondary: '#a855f7', // Purple
-                        accent: '#06b6d4', // Cyan
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    animation: {
-                        'blob': 'blob 7s infinite',
-                    },
-                    keyframes: {
-                        blob: {
-                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
-                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
-                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
-                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
-                        }
-                    }
-                }
-            }
-        }
-    </script>
+  .font-display{ font-family:'Space Grotesk', sans-serif; }
+  .font-mono{ font-family:'IBM Plex Mono', monospace; }
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  .grain{
+    position:fixed; inset:0; pointer-events:none; z-index:2; opacity:0.045; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .grid-bg{
+    background-image: linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+    background-size: 64px 64px;
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 10%, transparent 75%);
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 10%, transparent 75%);
+  }
+  .glass{
+    background: rgba(255,255,255,0.035);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid var(--line);
+  }
+  .panel{ background: var(--panel); border: 1px solid var(--line); }
+  .text-gradient-signal{
+    background: linear-gradient(100deg, var(--cyan), #9be8ff 55%, var(--cyan));
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  }
+  .num-tag{ font-variant-numeric: tabular-nums; letter-spacing:0.08em; }
 
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #050505;
-            color: #e2e8f0;
-            overflow-x: hidden;
-        }
+  /* cursor */
+  #cursor-dot, #cursor-ring{ position:fixed; top:0; left:0; pointer-events:none; z-index:9999; border-radius:50%; transform:translate(-50%,-50%); }
+  #cursor-dot{ width:6px; height:6px; background:var(--cyan); }
+  #cursor-ring{ width:34px; height:34px; border:1px solid rgba(94,234,212,0.55); transition: width .18s ease, height .18s ease, border-color .18s ease, background .18s ease; }
+  #cursor-label{ position:fixed; top:0; left:0; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.14em; color:#05060a; background:var(--cyan); padding:3px 7px; border-radius:99px; opacity:0; transition: opacity .15s ease; white-space:nowrap; }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0a0a0a;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #333;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #555;
-        }
+  .no-scrollbar::-webkit-scrollbar{ display:none; }
+  .no-scrollbar{ -ms-overflow-style:none; scrollbar-width:none; }
 
-        .glass {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
+  .hairline{ background: linear-gradient(90deg, transparent, var(--line) 20%, var(--line) 80%, transparent); height:1px; }
 
-        .glass-high {
-            background: rgba(255, 255, 255, 0.07);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior:auto !important; }
+  }
 
-        .text-gradient {
-            background: linear-gradient(to right, #818cf8, #c084fc, #22d3ee);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
+  .tilt-card{ transform-style: preserve-3d; }
 
-        .bg-gradient-glow {
-            background: radial-gradient(circle at center, rgba(99, 102, 241, 0.15), transparent 70%);
-        }
-    </style>
+  .placeholder-media{
+    background:
+      radial-gradient(circle at 15% 15%, rgba(94,234,212,0.14), transparent 45%),
+      radial-gradient(circle at 85% 85%, rgba(109,93,252,0.14), transparent 45%),
+      repeating-linear-gradient(135deg, rgba(255,255,255,0.025) 0px, rgba(255,255,255,0.025) 1px, transparent 1px, transparent 10px),
+      var(--panel2);
+  }
+</style>
 </head>
 <body>
-    <div id="root"></div>
+<div id="root"></div>
+<div class="grain"></div>
 
-    <script type="text/babel">
-        const { useState, useEffect, useRef } = React;
-        const { motion, useScroll, useTransform, AnimatePresence } = window.Motion;
+<script type="text/babel" data-presets="react">
+const { useState, useEffect, useRef, useMemo, useCallback } = React;
+const { motion, AnimatePresence, useScroll, useTransform, useMotionValue, useSpring } = window.Motion;
 
-        // --- Icons Component (SVG paths for reliability in single file) ---
-        const Icons = {
-            Code: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>,
-            Globe: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>,
-            Mail: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>,
-            Github: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg>,
-            Download: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>,
-            Send: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m22 2-7 20-4-9-9-4Z"></path><path d="M22 2 11 13"></path></svg>,
-            MessageCircle: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path></svg>,
-            Terminal: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>,
-            Zap: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>,
-            Award: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>,
-            ExternalLink: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-        };
+/* ============================== DATA (source of truth: user's existing portfolio) ============================== */
 
-        // --- Components ---
+const PROFILE = {
+  name: "Manuga Pulmith Galbadage",
+  role: "Frontend Developer · Data Analytics Learner · Digital Creator",
+  status: "Available for internships & freelance",
+  blurb: "I build responsive websites, learn Python and data analytics, and grow my craft through real client work and self-directed certifications.",
+  email: "manugapulmithgalbadage@gmail.com",
+  github: "https://github.com/Manugapulmith",
+  whatsapp: "https://wa.me/94776237532",
+  whatsappNumber: "94776237532",
+  telegram: "https://t.me/+94776237532",
+  cv: "Manuga_Pulmith_CV.pdf",
+};
 
-        const Navbar = () => {
-            const [isOpen, setIsOpen] = useState(false);
-            const [scrolled, setScrolled] = useState(false);
+const INTERESTS = ["Frontend Development", "Data Analytics", "Python", "UI / UX", "Digital Creation", "Continuous Learning"];
 
-            useEffect(() => {
-                const handleScroll = () => setScrolled(window.scrollY > 50);
-                window.addEventListener('scroll', handleScroll);
-                return () => window.removeEventListener('scroll', handleScroll);
-            }, []);
+const SKILL_GROUPS = [
+  { group: "FRONTEND", angle: -70, skills: [
+    { name: "HTML", level: 85 }, { name: "CSS", level: 80 }, { name: "JavaScript", level: 65 }, { name: "React", level: 35 },
+  ]},
+  { group: "PROGRAMMING", angle: 10, skills: [
+    { name: "Python", level: 45 },
+  ]},
+  { group: "TOOLS", angle: 80, skills: [
+    { name: "Git", level: 60 }, { name: "GitHub", level: 60 },
+  ]},
+  { group: "DATA", angle: 150, skills: [
+    { name: "Data Analytics", level: 40 },
+  ]},
+  { group: "DESIGN & MARKETING", angle: -150, skills: [
+    { name: "UI/UX Basics", level: 30 }, { name: "Digital Marketing", level: 70 },
+  ]},
+];
 
-            const navLinks = [
-                { name: 'About', href: '#about' },
-                { name: 'Skills', href: '#skills' },
-                { name: 'Certifications', href: '#certifications' },
-                { name: 'Projects', href: '#projects' },
-                { name: 'Design', href: '#design' },
-                { name: 'Journey', href: '#journey' },
-                { name: 'Contact', href: '#contact' },
-            ];
+const CERTS_DONE = [
+  { title: "Google Data Analytics Professional Certificate", issuer: "Google", detail: "Course 1 & 2 Completed" },
+  { title: "AWS Cloud Practitioner Essentials", issuer: "Amazon Web Services", detail: "Certified" },
+  { title: "Frontend Web Development Course", issuer: "Open University of Moratuwa", detail: "Certified" },
+  { title: "Web Design for Beginners Course", issuer: "Open University of Moratuwa", detail: "Certified" },
+  { title: "Python Beginner Course", issuer: "Open University of Moratuwa", detail: "Certified" },
+  { title: "Software Engineer Intern", issuer: "HackerRank", detail: "Certified" },
+  { title: "HubSpot Digital Marketing Certificate", issuer: "HubSpot", detail: "Certified" },
+  { title: "Certificate in Computer Applications Level 1 & 2", issuer: "Local Institute", detail: "First Class Distinction" },
+];
 
-            return (
-                <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'glass py-4' : 'bg-transparent py-6'}`}>
-                    <div className="container mx-auto px-6 flex justify-between items-center">
-                        <motion.a 
-                            href="#"
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            className="text-xl font-bold tracking-tight"
-                        >
-                            <span className="text-gradient">Manuga Pulmith</span>
-                        </motion.a>
+const CERTS_LEARNING = [
+  { title: "Google Data Analytics Professional Certificate", issuer: "Google", detail: "Course 3 In Progress" },
+  { title: "Intermediate Python Course", issuer: "UOM", detail: "Ongoing" },
+  { title: "Business Strategy Specialization", issuer: "University of Virginia", detail: "Ongoing" },
+];
 
-                        {/* Desktop Menu */}
-                        <div className="hidden md:flex space-x-8">
-                            {navLinks.map((link, index) => (
-                                <motion.a
-                                    key={link.name}
-                                    href={link.href}
-                                    initial={{ opacity: 0, y: -20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: index * 0.1 }}
-                                    className="text-sm font-medium text-gray-300 hover:text-white transition-colors"
-                                >
-                                    {link.name}
-                                </motion.a>
-                            ))}
-                        </div>
+const PROJECTS = [
+  {
+    id: "twm",
+    tag: "01",
+    name: "Travelwithmaalaka",
+    status: "Live",
+    stack: ["Web Design", "Content", "Responsive"],
+    img: "Home page 01.webp",
+    summary: "A travel-focused client website showcasing destination content, responsive layout and a full digital presence.",
+    problem: "A travel business needed an online presence that could present destinations clearly and convert visitors into enquiries, with no existing web or marketing infrastructure.",
+    solution: "Designed and built a responsive marketing website end to end, then set up the surrounding digital footprint — Google Business Profile, Facebook Page and WhatsApp Business — to support enquiries and local discovery.",
+    contribution: "Sole developer and digital marketing setup for the client, from initial build through to ongoing promotion.",
+    live: "https://travelwithmaalaka.com",
+    code: null,
+  },
+  {
+    id: "weather",
+    tag: "02",
+    name: "Modern Weather App",
+    status: "Live",
+    stack: ["API Integration", "JavaScript"],
+    img: "modern-weather-app.webp",
+    summary: "A functional weather application fetching real-time data and presenting it in a clean interface.",
+    problem: "Wanted a self-directed project to practice consuming a live third-party API and rendering asynchronous data cleanly in the browser.",
+    solution: "Built a lightweight frontend that requests real-time weather data and renders current conditions in a clear, responsive UI.",
+    contribution: "Solo build — structure, API integration and interface.",
+    live: null,
+    code: "https://github.com/Manugapulmith/modern-weather-app",
+  },
+  {
+    id: "siteiq",
+    tag: "03",
+    name: "Analytics Dashboard — SiteIQ",
+    status: "In Development",
+    stack: ["Python", "React", "Data Viz"],
+    img: "analytics-dashboard-preview.png",
+    summary: "A data visualization dashboard pairing a Python analytics backend with a React frontend for real-time insight.",
+    problem: "Portfolio needed a project that demonstrated data-analytics thinking, not just frontend styling — turning raw metrics into something readable.",
+    solution: "Building a dashboard that surfaces site and competitor insight through charts and structured summaries, connecting a Python-side analysis layer to a React interface.",
+    contribution: "Solo build, currently in active development.",
+    live: "https://manugapulmith.github.io/SiteIQ/",
+    code: null,
+  },
+];
 
-                        {/* Mobile Toggle */}
-                        <div className="md:hidden">
-                            <button onClick={() => setIsOpen(!isOpen)} className="text-white">
-                                {isOpen ? '✕' : '☰'}
-                            </button>
-                        </div>
-                    </div>
+const DESIGN_WORK = [
+  { img: "final 00.webp", title: "Electronics Grand Seminar", tag: "O/L Science 2026", big: true },
+  { img: "Post 2.webp", title: "A+ Batch Launch", tag: "O/L Science 2026", big: false },
+  { img: "Post 03.webp", title: "Acids, Bases & Salts Theory", tag: "O/L Science 2026", big: false },
+];
 
-                    {/* Mobile Menu */}
-                    <AnimatePresence>
-                        {isOpen && (
-                            <motion.div
-                                initial={{ opacity: 0, height: 0 }}
-                                animate={{ opacity: 1, height: 'auto' }}
-                                exit={{ opacity: 0, height: 0 }}
-                                className="md:hidden glass-high border-t border-gray-800"
-                            >
-                                <div className="flex flex-col p-6 space-y-4">
-                                    {navLinks.map((link) => (
-                                        <a key={link.name} href={link.href} onClick={() => setIsOpen(false)} className="text-gray-300 hover:text-white">
-                                            {link.name}
-                                        </a>
-                                    ))}
-                                </div>
-                            </motion.div>
-                        )}
-                    </AnimatePresence>
-                </nav>
-            );
-        };
+const JOURNEY = [
+  { phase: "01", title: "Computer Applications", desc: "Completed Levels 1 & 2 with First Class Distinction." },
+  { phase: "02", title: "Python Journey Begins", desc: "Started learning Python programming fundamentals." },
+  { phase: "03", title: "Python Certification", desc: "Completed the Python Beginner Course at OUM." },
+  { phase: "04", title: "Frontend Start", desc: "Dived deep into HTML, CSS and JavaScript." },
+  { phase: "05", title: "Data Analytics", desc: "Completed Google Data Analytics — Course 1." },
+  { phase: "06", title: "Real-World Project", desc: "Built and deployed travelwithmaalaka.com for a live client." },
+  { phase: "—", title: "Present — Next Chapter", desc: "Currently deepening Python, React and data analytics." },
+];
 
-        const Hero = () => {
-            return (
-                <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
-                    {/* Background Blobs */}
-                    <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
-                        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600/20 rounded-full mix-blend-screen filter blur-[100px] animate-blob"></div>
-                        <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-blue-600/20 rounded-full mix-blend-screen filter blur-[100px] animate-blob animation-delay-2000"></div>
-                        <div className="absolute -bottom-32 left-1/3 w-96 h-96 bg-cyan-600/20 rounded-full mix-blend-screen filter blur-[100px] animate-blob animation-delay-4000"></div>
-                    </div>
+const TERMINAL_LINES = [
+  { cmd: "whoami" },
+  { out: ["Frontend Developer", "Python Learner", "Data Analytics Enthusiast", "Digital Creator"] },
+];
 
-                    <div className="container mx-auto px-6 text-center z-10">
-                        <motion.div
-                            initial={{ opacity: 0, y: 30 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8 }}
-                        >
-                            <span className="inline-block py-1 px-3 rounded-full bg-white/5 border border-white/10 text-sm text-cyan-400 mb-6 font-medium">
-                                Available for Internships & Freelance
-                            </span>
-                            <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight leading-tight">
-                                Manuga Pulmith <br />
-                                <span className="text-gradient">Galbadage</span>
-                            </h1>
-                            <h2 className="text-xl md:text-2xl text-gray-400 mb-8 font-light max-w-2xl mx-auto">
-                                Aspiring Frontend Developer, Data Analytics Learner & Digital Creator
-                            </h2>
-                            <p className="text-gray-400 mb-10 max-w-2xl mx-auto leading-relaxed">
-                                I am passionate about technology, modern web development, digital experiences, and continuous learning. I enjoy building responsive websites, learning Python and data analytics, and improving my skills through real-world projects and certifications.
-                            </p>
+/* ============================== HELPERS ============================== */
 
-                            <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
-                                <motion.a
-                                    href="#projects"
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
-                                    className="px-8 py-4 bg-white text-black rounded-full font-semibold hover:bg-gray-200 transition-colors flex items-center gap-2"
-                                >
-                                    View Projects <Icons.Globe size={18} />
-                                </motion.a>
-                                <motion.a
-                                    href="Manuga_Pulmith_CV.pdf"
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
-                                    className="px-8 py-4 glass rounded-full font-semibold hover:bg-white/10 transition-colors flex items-center gap-2 text-white border border-white/20"
-                                >
-                                    Download CV <Icons.Download size={18} />
-                                </motion.a>
-                                <motion.a
-                                    href="#contact"
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
-                                    className="px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-full font-semibold shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 transition-all flex items-center gap-2"
-                                >
-                                    Contact Me <Icons.Send size={18} />
-                                </motion.a>
-                            </div>
-                        </motion.div>
-                    </div>
-                </section>
-            );
-        };
+function useIsTouch(){
+  const [isTouch, setIsTouch] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia('(hover: none), (max-width: 860px)');
+    const update = () => setIsTouch(mq.matches);
+    update();
+    mq.addEventListener ? mq.addEventListener('change', update) : mq.addListener(update);
+    return () => { mq.removeEventListener ? mq.removeEventListener('change', update) : mq.removeListener(update); };
+  }, []);
+  return isTouch;
+}
 
-        const SectionTitle = ({ children, subtitle }) => (
-            <div className="mb-16 text-center">
-                <motion.h2 
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="text-3xl md:text-4xl font-bold mb-4"
-                >
-                    {children}
-                </motion.h2>
-                {subtitle && <p className="text-gray-400 max-w-xl mx-auto">{subtitle}</p>}
-                <div className="w-20 h-1 bg-gradient-to-r from-purple-500 to-blue-500 mx-auto mt-6 rounded-full"></div>
+function useActiveSection(ids){
+  const [active, setActive] = useState(ids[0]);
+  useEffect(() => {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) setActive(e.target.id); });
+    }, { rootMargin: '-40% 0px -50% 0px', threshold: 0 });
+    ids.forEach(id => { const el = document.getElementById(id); if (el) obs.observe(el); });
+    return () => obs.disconnect();
+  }, [ids]);
+  return active;
+}
+
+/* ============================== CUSTOM CURSOR ============================== */
+
+function CustomCursor(){
+  const isTouch = useIsTouch();
+  const dotRef = useRef(null);
+  const ringRef = useRef(null);
+  const labelRef = useRef(null);
+  const pos = useRef({ x: 0, y: 0 });
+  const ring = useRef({ x: 0, y: 0 });
+
+  useEffect(() => {
+    if (isTouch) return;
+    let raf;
+    const move = (e) => { pos.current = { x: e.clientX, y: e.clientY }; };
+    window.addEventListener('mousemove', move);
+
+    const tick = () => {
+      ring.current.x += (pos.current.x - ring.current.x) * 0.2;
+      ring.current.y += (pos.current.y - ring.current.y) * 0.2;
+      if (dotRef.current) dotRef.current.style.transform = `translate(${pos.current.x}px, ${pos.current.y}px) translate(-50%,-50%)`;
+      if (ringRef.current) ringRef.current.style.transform = `translate(${ring.current.x}px, ${ring.current.y}px) translate(-50%,-50%)`;
+      if (labelRef.current) labelRef.current.style.transform = `translate(${ring.current.x}px, ${ring.current.y}px) translate(-50%,-50%)`;
+      raf = requestAnimationFrame(tick);
+    };
+    tick();
+
+    const over = (e) => {
+      const el = e.target.closest('[data-cursor]');
+      if (!el) {
+        if (ringRef.current){ ringRef.current.style.width='34px'; ringRef.current.style.height='34px'; ringRef.current.style.background='transparent'; }
+        if (labelRef.current) labelRef.current.style.opacity = '0';
+        return;
+      }
+      const mode = el.getAttribute('data-cursor');
+      if (mode === 'view' || mode === 'open') {
+        if (ringRef.current){ ringRef.current.style.width='64px'; ringRef.current.style.height='64px'; ringRef.current.style.background='rgba(94,234,212,0.08)'; }
+        if (labelRef.current){ labelRef.current.textContent = mode.toUpperCase(); labelRef.current.style.opacity='1'; }
+      } else {
+        if (ringRef.current){ ringRef.current.style.width='52px'; ringRef.current.style.height='52px'; ringRef.current.style.background='rgba(255,255,255,0.06)'; }
+        if (labelRef.current) labelRef.current.style.opacity='0';
+      }
+    };
+    window.addEventListener('mouseover', over);
+    return () => { window.removeEventListener('mousemove', move); window.removeEventListener('mouseover', over); cancelAnimationFrame(raf); };
+  }, [isTouch]);
+
+  if (isTouch) return null;
+  return (
+    <React.Fragment>
+      <div id="cursor-ring" ref={ringRef}></div>
+      <div id="cursor-dot" ref={dotRef}></div>
+      <div id="cursor-label" ref={labelRef}></div>
+    </React.Fragment>
+  );
+}
+
+function Magnetic({ children, strength = 18, className, ...rest }){
+  const ref = useRef(null);
+  const [t, setT] = useState({ x: 0, y: 0 });
+  const onMove = (e) => {
+    const r = ref.current.getBoundingClientRect();
+    const x = (e.clientX - r.left - r.width/2) / r.width;
+    const y = (e.clientY - r.top - r.height/2) / r.height;
+    setT({ x: x * strength, y: y * strength });
+  };
+  const onLeave = () => setT({ x: 0, y: 0 });
+  return (
+    <motion.div ref={ref} onMouseMove={onMove} onMouseLeave={onLeave}
+      animate={{ x: t.x, y: t.y }} transition={{ type: 'spring', stiffness: 150, damping: 12, mass: 0.2 }}
+      className={className} {...rest}>
+      {children}
+    </motion.div>
+  );
+}
+
+/* ============================== LOADER ============================== */
+
+function Loader({ onDone }){
+  const [pct, setPct] = useState(0);
+  useEffect(() => {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) { onDone(); return; }
+    const start = performance.now();
+    const dur = 1100;
+    let raf;
+    const step = (now) => {
+      const p = Math.min(1, (now - start) / dur);
+      setPct(Math.floor(p * 100));
+      if (p < 1) raf = requestAnimationFrame(step);
+      else setTimeout(onDone, 220);
+    };
+    raf = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+  return (
+    <motion.div exit={{ opacity: 0 }} transition={{ duration: 0.5 }}
+      className="fixed inset-0 z-[999] bg-void flex flex-col items-center justify-center">
+      <div className="font-display text-3xl tracking-tight mb-6">MPG</div>
+      <div className="w-40 h-px bg-white/10 relative overflow-hidden">
+        <div className="absolute inset-y-0 left-0 bg-cyan" style={{ width: `${pct}%` }}></div>
+      </div>
+      <div className="font-mono text-[11px] text-inkfaint mt-4 tracking-[0.2em] num-tag">{String(pct).padStart(3,'0')}%</div>
+    </motion.div>
+  );
+}
+
+/* ============================== NAV ============================== */
+
+const SECTIONS = [
+  { id: 'about', label: 'About' },
+  { id: 'skills', label: 'Skills' },
+  { id: 'certifications', label: 'Certs' },
+  { id: 'projects', label: 'Projects' },
+  { id: 'design', label: 'Design' },
+  { id: 'journey', label: 'Journey' },
+  { id: 'contact', label: 'Contact' },
+];
+
+function Nav(){
+  const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const lastY = useRef(0);
+  const active = useActiveSection(SECTIONS.map(s => s.id));
+
+  useEffect(() => {
+    const onScroll = () => {
+      const y = window.scrollY;
+      setScrolled(y > 40);
+      setHidden(y > lastY.current && y > 200);
+      lastY.current = y;
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  return (
+    <React.Fragment>
+      <motion.nav
+        animate={{ y: hidden && !menuOpen ? -100 : 0 }}
+        transition={{ duration: 0.35, ease: 'easeInOut' }}
+        className="fixed top-4 md:top-6 left-0 right-0 z-50 flex justify-center px-4">
+        <div className={`flex items-center gap-1 md:gap-2 rounded-full px-3 py-2 transition-all duration-300 ${scrolled ? 'glass shadow-[0_0_40px_rgba(0,0,0,0.4)]' : 'bg-transparent border border-transparent'}`}>
+          <a href="#top" data-cursor="link" className="font-display font-semibold text-sm px-3 tracking-tight text-ink">MPG</a>
+          <div className="hidden md:flex items-center">
+            {SECTIONS.map(s => (
+              <a key={s.id} href={`#${s.id}`} data-cursor="link"
+                className={`relative px-3 py-2 text-xs font-mono uppercase tracking-[0.12em] transition-colors ${active === s.id ? 'text-void' : 'text-inkdim hover:text-ink'}`}>
+                {active === s.id && (
+                  <motion.span layoutId="nav-pill" className="absolute inset-0 bg-cyan rounded-full -z-10" transition={{ type: 'spring', stiffness: 350, damping: 30 }}></motion.span>
+                )}
+                {s.label}
+              </a>
+            ))}
+          </div>
+          <a href={PROFILE.cv} target="_blank" rel="noreferrer" data-cursor="open"
+            className="hidden md:inline-flex ml-1 items-center gap-2 rounded-full bg-ink text-void text-xs font-mono uppercase tracking-[0.1em] px-4 py-2 hover:bg-cyan transition-colors">
+            Resume
+          </a>
+          <button onClick={() => setMenuOpen(true)} data-cursor="link" className="md:hidden px-3 py-2 font-mono text-xs tracking-widest uppercase text-ink">Menu</button>
+        </div>
+      </motion.nav>
+
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[60] bg-void md:hidden flex flex-col">
+            <div className="flex justify-between items-center px-6 py-6">
+              <span className="font-display font-semibold">MPG</span>
+              <button onClick={() => setMenuOpen(false)} className="font-mono text-xs uppercase tracking-widest text-inkdim">Close ✕</button>
             </div>
-        );
+            <div className="flex-1 flex flex-col justify-center px-8 gap-2">
+              {SECTIONS.map((s, i) => (
+                <motion.a key={s.id} href={`#${s.id}`} onClick={() => setMenuOpen(false)}
+                  initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }}
+                  className="font-display text-4xl py-3 border-b border-white/5 text-ink">
+                  <span className="font-mono text-sm text-cyan mr-4 align-middle">0{i+1}</span>{s.label}
+                </motion.a>
+              ))}
+            </div>
+            <div className="px-8 pb-10 flex gap-4 font-mono text-xs uppercase tracking-widest text-inkdim">
+              <a href={PROFILE.github} target="_blank" rel="noreferrer">GitHub</a>
+              <a href={`mailto:${PROFILE.email}`}>Email</a>
+              <a href={PROFILE.whatsapp} target="_blank" rel="noreferrer">WhatsApp</a>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </React.Fragment>
+  );
+}
 
-        const About = () => {
-            const cards = [
-                { icon: Icons.Code, title: "Tech Enthusiast", desc: "Deep passion for exploring new technologies and understanding how digital tools shape the world." },
-                { icon: Icons.Zap, title: "Self-Learner", desc: "Driven by curiosity. Constantly taking courses and building projects to expand my knowledge base." },
-                { icon: Icons.Globe, title: "Digital Creator", desc: "Focused on building professional digital experiences that are not only functional but also visually appealing." },
-            ];
+/* ============================== HERO 3D ORB ============================== */
 
-            return (
-                <section id="about" className="py-24 relative">
-                    <div className="container mx-auto px-6">
-                        <SectionTitle>About Me</SectionTitle>
+function HeroOrb(){
+  const mountRef = useRef(null);
+  const isTouch = useIsTouch();
 
-                        <div className="grid md:grid-cols-3 gap-8">
-                            {cards.map((card, i) => (
-                                <motion.div
-                                    key={i}
-                                    initial={{ opacity: 0, y: 30 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ delay: i * 0.1 }}
-                                    whileHover={{ y: -5 }}
-                                    className="glass p-8 rounded-2xl hover:bg-white/5 transition-all duration-300 group"
-                                >
-                                    <div className="w-12 h-12 bg-gradient-to-br from-purple-500/20 to-blue-500/20 rounded-lg flex items-center justify-center mb-6 text-cyan-400 group-hover:scale-110 transition-transform">
-                                        <card.icon size={24} />
-                                    </div>
-                                    <h3 className="text-xl font-bold mb-3">{card.title}</h3>
-                                    <p className="text-gray-400 leading-relaxed">{card.desc}</p>
-                                </motion.div>
-                            ))}
-                        </div>
+  useEffect(() => {
+    if (!mountRef.current || !window.THREE) return;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const mount = mountRef.current;
+    const width = mount.clientWidth, height = mount.clientHeight;
 
-                        <motion.div 
-                            initial={{ opacity: 0 }}
-                            whileInView={{ opacity: 1 }}
-                            viewport={{ once: true }}
-                            className="mt-16 glass-high p-8 rounded-2xl border border-white/10 max-w-4xl mx-auto text-center"
-                        >
-                            <h3 className="text-2xl font-bold mb-4">My Goal</h3>
-                            <p className="text-lg text-gray-300">
-                                To secure a challenging role in the tech industry where I can utilize my skills in Frontend Development and Data Analytics. I am eager to contribute to meaningful projects, learn from experienced professionals, and grow into a key asset for a forward-thinking company.
-                            </p>
-                        </motion.div>
-                    </div>
-                </section>
-            );
-        };
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, width/height, 0.1, 100);
+    camera.position.z = 6.4;
 
-        const Skills = () => {
-            const skills = [
-                { name: "HTML",              level: "Proficient",    pct: 85, icon: "html5"           },
-                { name: "CSS",               level: "Proficient",    pct: 80, icon: "css3"            },
-                { name: "JavaScript",        level: "Intermediate",  pct: 65, icon: "javascript"      },
-                { name: "Python",            level: "Beginner",      pct: 45, icon: "python"          },
-                { name: "React",             level: "Learning",      pct: 35, icon: "react"           },
-                { name: "Git",               level: "Intermediate",  pct: 60, icon: "git"             },
-                { name: "GitHub",            level: "Intermediate",  pct: 60, icon: "github"          },
-                { name: "Data Analytics",    level: "Learning",      pct: 40, icon: "googleanalytics" },
-                { name: "Digital Marketing", level: "Certified",     pct: 70, icon: "hubspot"         },
-                { name: "UI/UX Basics",      level: "Basic",         pct: 30, icon: "figma"           },
-            ];
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, isTouch ? 1.5 : 2));
+    renderer.setSize(width, height);
+    mount.appendChild(renderer.domElement);
 
-            return (
-                <section id="skills" className="py-24 bg-black/30">
-                    <div className="container mx-auto px-6">
-                        <SectionTitle>Technical Skills</SectionTitle>
-                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 max-w-5xl mx-auto">
-                            {skills.map((skill, i) => (
-                                <motion.div
-                                    key={i}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ delay: i * 0.07 }}
-                                    whileHover={{ y: -4 }}
-                                    className="glass p-5 rounded-xl border border-white/5 hover:border-purple-500/40 transition-all duration-300 flex flex-col gap-3"
-                                >
-                                    {/* Logo */}
-                                    <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center">
-                                        <img
-                                            src={`https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/${skill.icon}.svg`}
-                                            alt={skill.name}
-                                            width="22"
-                                            height="22"
-                                            style={{ filter: 'invert(1) brightness(0.75)' }}
-                                            onError={(e) => { e.target.style.display = 'none'; }}
-                                        />
-                                    </div>
-                                    {/* Name & Level */}
-                                    <div>
-                                        <p className="text-sm font-semibold text-white leading-tight">{skill.name}</p>
-                                        <p className="text-xs text-gray-500 mt-0.5">{skill.level}</p>
-                                    </div>
-                                    {/* Progress Bar */}
-                                    <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden">
-                                        <motion.div
-                                            className="h-full bg-gradient-to-r from-purple-500 to-blue-500 rounded-full"
-                                            initial={{ width: 0 }}
-                                            whileInView={{ width: `${skill.pct}%` }}
-                                            viewport={{ once: true }}
-                                            transition={{ duration: 0.8, delay: i * 0.07, ease: "easeOut" }}
-                                        />
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-            );
-        };
+    const group = new THREE.Group();
+    scene.add(group);
 
-        const Certifications = () => {
-            const completed = [
-                { title: "Google Data Analytics Professional Certificate", issuer: "Google", detail: "Course 1 & 2 Completed" },
-                { title: "AWS Cloud Practitioner Essentials", issuer: "Amazon Web Services", detail: "Certified" },
-                { title: "Frontend Web Development Course", issuer: "Open University of Moratuwa", detail: "Certified" },
-                { title: "Web Design for Beginners Course", issuer: "Open University of Moratuwa", detail: "Certified" },
-                { title: "Python Beginner Course", issuer: "Open University of Moratuwa", detail: "Certified" },
-                { title: "Software Engineer Intern", issuer: "HackerRank", detail: "Certified" },
-                { title: "HubSpot Digital Marketing Certificate", issuer: "HubSpot", detail: "Certified" },
-                { title: "Certificate in Computer Applications Level 1&2", issuer: "Local Institute", detail: "First Class Distinction" },
-            ];
+    const geo = new THREE.IcosahedronGeometry(2.15, isTouch ? 1 : 2);
+    const wire = new THREE.WireframeGeometry(geo);
+    const mat = new THREE.LineBasicMaterial({ color: 0x5EEAD4, transparent: true, opacity: 0.55 });
+    const lines = new THREE.LineSegments(wire, mat);
+    group.add(lines);
 
-            const learning = [
-                { title: "Google Data Analytics Professional Certificate", issuer: "Google", detail: "Course 3 In Progress" },
-                { title: "Intermediate Python Course", issuer: "UOM", detail: "Ongoing" },
-                { title: " Business Strategy Specialization", issuer: "University of Virginia", detail: "Ongoing" },
-            ];
+    const innerGeo = new THREE.IcosahedronGeometry(1.55, 0);
+    const innerWire = new THREE.WireframeGeometry(innerGeo);
+    const innerMat = new THREE.LineBasicMaterial({ color: 0x6D5DFC, transparent: true, opacity: 0.35 });
+    const innerLines = new THREE.LineSegments(innerWire, innerMat);
+    group.add(innerLines);
 
-            return (
-                <section id="certifications" className="py-24">
-                    <div className="container mx-auto px-6">
-                        <SectionTitle>Certifications & Learning</SectionTitle>
+    // point cloud shell
+    const ptGeo = new THREE.BufferGeometry();
+    const N = isTouch ? 140 : 320;
+    const positions = new Float32Array(N * 3);
+    for (let i = 0; i < N; i++){
+      const r = 2.9 + Math.random() * 0.6;
+      const theta = Math.random() * Math.PI * 2;
+      const phi = Math.acos((Math.random() * 2) - 1);
+      positions[i*3] = r * Math.sin(phi) * Math.cos(theta);
+      positions[i*3+1] = r * Math.sin(phi) * Math.sin(theta);
+      positions[i*3+2] = r * Math.cos(phi);
+    }
+    ptGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    const ptMat = new THREE.PointsMaterial({ color: 0x9be8ff, size: 0.028, transparent: true, opacity: 0.7 });
+    const points = new THREE.Points(ptGeo, ptMat);
+    group.add(points);
 
-                        <div className="grid md:grid-cols-2 gap-12">
-                            {/* Completed */}
-                            <div>
-                                <h3 className="text-xl font-semibold mb-6 flex items-center gap-2">
-                                    <Icons.Award className="text-yellow-400" /> Completed
-                                </h3>
-                                <div className="space-y-4">
-                                    {completed.map((cert, i) => (
-                                        <motion.div
-                                            key={i}
-                                            initial={{ opacity: 0, x: -20 }}
-                                            whileInView={{ opacity: 1, x: 0 }}
-                                            viewport={{ once: true }}
-                                            transition={{ delay: i * 0.1 }}
-                                            className="glass p-5 rounded-xl border-l-4 border-green-500 hover:bg-white/5 transition-colors"
-                                        >
-                                            <h4 className="font-bold text-lg">{cert.title}</h4>
-                                            <p className="text-sm text-gray-400">{cert.issuer}</p>
-                                            <span className="inline-block mt-2 text-xs font-mono bg-green-500/10 text-green-400 px-2 py-1 rounded">{cert.detail}</span>
-                                        </motion.div>
-                                    ))}
-                                </div>
-                            </div>
+    let mx = 0, my = 0, tx = 0, ty = 0;
+    const onMove = (e) => {
+      const r = mount.getBoundingClientRect();
+      mx = ((e.clientX - r.left) / r.width - 0.5) * 2;
+      my = ((e.clientY - r.top) / r.height - 0.5) * 2;
+    };
+    window.addEventListener('mousemove', onMove);
 
-                            {/* Currently Learning */}
-                            <div>
-                                <h3 className="text-xl font-semibold mb-6 flex items-center gap-2">
-                                    <Icons.Terminal className="text-blue-400" /> Currently Learning
-                                </h3>
-                                <div className="space-y-4">
-                                    {learning.map((cert, i) => (
-                                        <motion.div
-                                            key={i}
-                                            initial={{ opacity: 0, x: 20 }}
-                                            whileInView={{ opacity: 1, x: 0 }}
-                                            viewport={{ once: true }}
-                                            transition={{ delay: i * 0.1 }}
-                                            className="glass p-5 rounded-xl border-l-4 border-blue-500 hover:bg-white/5 transition-colors"
-                                        >
-                                            <h4 className="font-bold text-lg">{cert.title}</h4>
-                                            <p className="text-sm text-gray-400">{cert.issuer}</p>
-                                            <span className="inline-block mt-2 text-xs font-mono bg-blue-500/10 text-blue-400 px-2 py-1 rounded">{cert.detail}</span>
-                                        </motion.div>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            );
-        };
+    let raf;
+    const animate = () => {
+      tx += (mx - tx) * 0.03; ty += (my - ty) * 0.03;
+      group.rotation.y += reduce ? 0 : 0.0018;
+      group.rotation.x = ty * 0.35;
+      group.rotation.y += ty * 0.0001;
+      group.rotation.z = tx * 0.08;
+      points.rotation.y -= reduce ? 0 : 0.0009;
+      renderer.render(scene, camera);
+      raf = requestAnimationFrame(animate);
+    };
+    animate();
 
-        const Projects = () => {
-            return (
-                <section id="projects" className="py-24 bg-black/30">
-                    <div className="container mx-auto px-6">
-                        <SectionTitle>Featured Projects</SectionTitle>
+    const onResize = () => {
+      const w = mount.clientWidth, h = mount.clientHeight;
+      camera.aspect = w/h; camera.updateProjectionMatrix();
+      renderer.setSize(w, h);
+    };
+    window.addEventListener('resize', onResize);
 
-                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                            {/* Main Project */}
-                            <motion.div 
-                                className="group glass-high rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-500 border border-white/10"
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                            >
-                                <div className="h-48 relative overflow-hidden">
-                                    <img src="Home page 01.webp" alt="TravelWithMaalaka" style={{width:"100%",height:"100%",objectFit:"cover",position:"absolute",top:0,left:0}} />
-                                    <div style={{position:"absolute",inset:0,background:"rgba(0,0,0,0.25)"}}></div>
-                                    <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent"></div>
-                                </div>
-                                <div className="p-6">
-                                    <h3 className="text-xl font-bold mb-2">Travelwithmaalaka</h3>
-                                    <p className="text-gray-400 mb-4 text-sm leading-relaxed">
-                                        A travel-focused website project showcasing destination content, responsive modern web design, and digital experience creation.
-                                    </p>
-                                    <div className="flex flex-wrap gap-2 mb-4">
-                                        <span className="text-xs px-2 py-1 rounded bg-white/10">Web Design</span>
-                                        <span className="text-xs px-2 py-1 rounded bg-white/10">Content</span>
-                                        <span className="text-xs px-2 py-1 rounded bg-white/10">Responsive</span>
-                                    </div>
-                                    <a href="https://travelwithmaalaka.com" target="_blank" rel="noreferrer" className="inline-flex items-center text-purple-400 font-semibold hover:text-purple-300 transition-colors">
-                                        Visit Website <Icons.ExternalLink size={16} className="ml-2" />
-                                    </a>
-                                </div>
-                            </motion.div>
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('resize', onResize);
+      renderer.dispose();
+      if (mount.contains(renderer.domElement)) mount.removeChild(renderer.domElement);
+    };
+  }, [isTouch]);
 
-                            {/* GitHub Project */}
-                            <motion.div 
-                                className="group glass-high rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-cyan-500/10 transition-all duration-500 border border-white/10"
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: 0.2 }}
-                            >
-                                <div className="h-48 relative overflow-hidden">
-                                    <img src="modern-weather-app.webp" alt="Weather App" style={{width:"100%",height:"100%",objectFit:"cover",position:"absolute",top:0,left:0}} />
-                                    <div style={{position:"absolute",inset:0,background:"rgba(0,0,0,0.25)"}}></div>
-                                    <Icons.Globe size={64} className="text-white/10 group-hover:text-cyan-500/20 transition-colors duration-500" />
-                                    <div className="absolute bottom-4 right-4 bg-black/50 backdrop-blur px-3 py-1 rounded-full text-xs font-mono text-gray-300 border border-white/10">
-                                        React / API
-                                    </div>
-                                </div>
-                                <div className="p-6">
-                                    <h3 className="text-xl font-bold mb-2">Modern Weather App</h3>
-                                    <p className="text-gray-400 mb-4 text-sm leading-relaxed">
-                                        A functional weather application built with modern frontend technologies. Fetches real-time data and displays it in a clean UI.
-                                    </p>
-                                    <div className="flex flex-wrap gap-2 mb-4">
-                                        <span className="text-xs px-2 py-1 rounded bg-white/10">API Integration</span>
-                                        <span className="text-xs px-2 py-1 rounded bg-white/10">JavaScript</span>
-                                    </div>
-                                    <a href="https://github.com/Manugapulmith/modern-weather-app" target="_blank" rel="noreferrer" className="inline-flex items-center text-cyan-400 font-semibold hover:text-cyan-300 transition-colors">
-                                        View Code <Icons.Github size={16} className="ml-2" />
-                                    </a>
-                                </div>
-                            </motion.div>
+  return <div ref={mountRef} className="w-full h-full"></div>;
+}
 
-                            {/* Data Dashboard Project */}
-                            <motion.div 
-                                className="group glass-high rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-orange-500/10 transition-all duration-500 border border-orange-500/20"
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: 0.4 }}
-                            >
-                                <div className="h-48 relative overflow-hidden">
-                                    <img src="analytics-dashboard-preview.png" alt="Analytics Dashboard preview" style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"top",position:"absolute",top:0,left:0}} />
-                                    <div style={{position:"absolute",inset:0,background:"rgba(0,0,0,0.35)"}}></div>
-                                    <div className="absolute top-4 left-4">
-                                        <span className="inline-flex items-center gap-1.5 bg-orange-500/20 border border-orange-500/40 text-orange-400 text-xs font-bold px-3 py-1 rounded-full">
-                                            <span className="w-1.5 h-1.5 bg-orange-400 rounded-full animate-pulse"></span>
-                                            In Development
-                                        </span>
-                                    </div>
-                                    <div className="absolute bottom-4 right-4 bg-black/50 backdrop-blur px-3 py-1 rounded-full text-xs font-mono text-gray-300 border border-white/10">
-                                        Python / React
-                                    </div>
-                                </div>
-                                <div className="p-6">
-                                    <h3 className="text-xl font-bold mb-2">Analytics Dashboard</h3>
-                                    <p className="text-gray-400 mb-4 text-sm leading-relaxed">
-                                        A data visualization dashboard integrating a Python analytics backend with a React frontend for real-time insights.
-                                    </p>
-                                    <div className="flex flex-wrap gap-2 mb-4">
-                                        <span className="text-xs px-2 py-1 rounded bg-orange-500/10 text-orange-400 border border-orange-500/20">Python</span>
-                                        <span className="text-xs px-2 py-1 rounded bg-orange-500/10 text-orange-400 border border-orange-500/20">React</span>
-                                        <span className="text-xs px-2 py-1 rounded bg-orange-500/10 text-orange-400 border border-orange-500/20">Data Viz</span>
-                                    </div>
-                                    <a href="https://manugapulmith.github.io/SiteIQ/" target="_blank" rel="noreferrer" className="inline-flex items-center text-orange-400 font-semibold text-sm hover:text-orange-300 transition-colors">
-                                        <Icons.ExternalLink size={16} className="mr-2" /> View Live Preview
-                                    </a>
-                                </div>
-                            </motion.div>
-                        </div>
-                    </div>
-                </section>
-            );
-        };
+/* ============================== HERO ============================== */
 
+function Ticker(){
+  const words = ["BUILD", "LEARN", "CREATE", "ANALYZE"];
+  return (
+    <div className="overflow-hidden whitespace-nowrap border-y border-white/8 py-2 opacity-70">
+      <motion.div animate={{ x: ['0%', '-50%'] }} transition={{ repeat: Infinity, duration: 16, ease: 'linear' }}
+        className="inline-flex font-mono text-[11px] tracking-[0.3em] text-inkdim">
+        {[...words, ...words, ...words, ...words].map((w, i) => (
+          <span key={i} className="mx-4 flex items-center gap-4">{w} <span className="text-cyan">◆</span></span>
+        ))}
+      </motion.div>
+    </div>
+  );
+}
 
-        const DesignWork = () => {
-            const posts = [
-                {
-                    img: "final 00.webp",
-                    title: "Electronics Grand Seminar",
-                    tag: "O/L Science 2026"
-                },
-                {
-                    img: "Post 2.webp",
-                    title: "A+ Batch Launch",
-                    tag: "O/L Science 2026"
-                },
-                {
-                    img: "Post 03.webp",
-                    title: "Acids, Bases & Salts Theory",
-                    tag: "O/L Science 2026"
-                },
-            ];
+function Hero(){
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
+  const y = useTransform(scrollYProgress, [0, 1], [0, 120]);
+  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
-            return (
-                <section id="design" className="py-24 bg-black/20">
-                    <div className="container mx-auto px-6">
-                        <SectionTitle>Design Work</SectionTitle>
-                        <p className="text-center text-gray-500 text-sm -mt-6 mb-12">Educational promotional posts created for tuition classes</p>
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
-                            {posts.map((post, i) => (
-                                <motion.div
-                                    key={i}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ delay: i * 0.1 }}
-                                    whileHover={{ y: -4, scale: 1.02 }}
-                                    className="glass rounded-xl overflow-hidden border border-white/5 hover:border-purple-500/30 transition-all duration-300"
-                                >
-                                    <img
-                                        src={post.img}
-                                        alt={post.title}
-                                        className="w-full aspect-square object-cover"
-                                    />
-                                    <div className="p-4">
-                                        <span className="text-xs text-purple-400 font-semibold uppercase tracking-wide">{post.tag}</span>
-                                        <p className="text-sm font-medium text-white mt-1">{post.title}</p>
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-            );
-        };
+  return (
+    <section id="top" ref={ref} className="relative min-h-[100svh] flex flex-col justify-center overflow-hidden">
+      <div className="absolute inset-0 grid-bg -z-10"></div>
+      <div className="absolute inset-0 -z-10" style={{ background: 'radial-gradient(ellipse 60% 50% at 75% 30%, rgba(109,93,252,0.10), transparent 60%)' }}></div>
 
-        const Timeline = () => {
-            const events = [
-                { year: "Phase 1", title: "Computer Applications", desc: "Completed Levels 1 & 2 with First Class Distinction.", color: "purple" },
-                { year: "Phase 2", title: "Python Journey Begins", desc: "Started learning Python programming fundamentals.", color: "blue" },
-                { year: "Phase 3", title: "Python Certification", desc: "Completed Python Beginner Course at OUM.", color: "blue" },
-                { year: "Phase 4", title: "Frontend Start", desc: "Dived deep into HTML, CSS, and JavaScript.", color: "cyan" },
-                { year: "Phase 5", title: "Data Analytics", desc: "Completed Google Data Analytics Course 1.", color: "indigo" },
-                { year: "Phase 6", title: "Real World Project", desc: "Built and deployed TravelWithMaalaka.com.", color: "purple" },
-                { year: "Present", title: "Advanced Learning", desc: "Currently mastering Advanced Python & React.", color: "cyan" },
-            ];
+      <motion.div style={{ y, opacity }} className="container mx-auto px-6 pt-28 md:pt-20 grid md:grid-cols-2 gap-10 items-center">
+        <div>
+          <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}
+            className="inline-flex items-center gap-2 font-mono text-[11px] tracking-[0.18em] uppercase text-cyan border border-cyan/25 bg-cyan/5 rounded-full px-3 py-1.5 mb-8">
+            <span className="w-1.5 h-1.5 rounded-full bg-cyan animate-pulse"></span>
+            {PROFILE.status}
+          </motion.div>
 
-            const dotColors = {
-                purple: "border-purple-500 shadow-[0_0_15px_rgba(168,85,247,0.5)]",
-                blue:   "border-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.5)]",
-                cyan:   "border-cyan-500 shadow-[0_0_15px_rgba(6,182,212,0.5)]",
-                indigo: "border-indigo-500 shadow-[0_0_15px_rgba(99,102,241,0.5)]",
-            };
+          <motion.h1 initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
+            className="font-display font-semibold text-[13vw] leading-[0.95] md:text-[5.2vw] md:leading-[0.98] tracking-tight mb-6">
+            Manuga<br/>Pulmith <span className="text-gradient-signal">Galbadage</span>
+          </motion.h1>
 
-            const labelColors = {
-                purple: "text-purple-400",
-                blue:   "text-blue-400",
-                cyan:   "text-cyan-400",
-                indigo: "text-indigo-400",
-            };
+          <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.22 }}
+            className="font-mono text-xs md:text-sm tracking-[0.1em] uppercase text-inkdim mb-5">
+            {PROFILE.role}
+          </motion.p>
 
-            return (
-                <section id="journey" className="py-24">
-                    <div className="container mx-auto px-6 max-w-4xl">
-                        <SectionTitle>Learning Journey</SectionTitle>
+          <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3 }}
+            className="text-inkdim max-w-md leading-relaxed mb-10">
+            {PROFILE.blurb}
+          </motion.p>
 
-                        <div className="relative">
-                            {/* Vertical Line */}
-                            <div className="absolute left-0 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-purple-500 via-blue-500 to-transparent"></div>
+          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.4 }}
+            className="flex flex-wrap gap-4">
+            <Magnetic>
+              <a href="#projects" data-cursor="view" className="inline-flex items-center gap-2 bg-ink text-void font-mono text-xs uppercase tracking-[0.12em] px-6 py-4 rounded-full hover:bg-cyan transition-colors">
+                View Work <span>→</span>
+              </a>
+            </Magnetic>
+            <Magnetic>
+              <a href="#contact" data-cursor="link" className="inline-flex items-center gap-2 glass font-mono text-xs uppercase tracking-[0.12em] px-6 py-4 rounded-full text-ink hover:bg-white/10 transition-colors">
+                Contact
+              </a>
+            </Magnetic>
+          </motion.div>
+        </div>
 
-                            {events.map((event, i) => (
-                                <motion.div
-                                    key={i}
-                                    initial={{ opacity: 0, y: 50 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ delay: i * 0.1 }}
-                                    className={`relative flex items-center mb-12 ${i % 2 === 0 ? 'md:flex-row-reverse' : ''}`}
-                                >
-                                    {/* Dot */}
-                                    <div className={`absolute left-0 md:left-1/2 w-4 h-4 bg-white rounded-full border-4 transform -translate-x-[7px] md:-translate-x-1/2 z-10 ${dotColors[event.color]}`}></div>
+        <motion.div initial={{ opacity: 0, scale: 0.85 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1, delay: 0.2 }}
+          className="relative h-[340px] md:h-[520px]">
+          <HeroOrb />
+          <div className="absolute top-4 left-2 font-mono text-[10px] text-inkfaint tracking-widest hidden md:block">
+            <div>LAT 06.58° N</div><div>LON 79.95° E</div>
+          </div>
+          <div className="absolute bottom-4 right-2 font-mono text-[10px] text-inkfaint tracking-widest text-right hidden md:block">
+            <div>NODE::PORTFOLIO</div><div>STATUS::ONLINE</div>
+          </div>
+        </motion.div>
+      </motion.div>
 
-                                    <div className="w-full md:w-1/2 pl-10 md:pl-0 md:pr-12">
-                                        <div className={`glass p-6 rounded-xl ${i % 2 === 0 ? 'md:text-left' : 'md:text-right md:pl-12'}`}>
-                                            <span className={`text-xs font-bold uppercase tracking-widest ${labelColors[event.color]}`}>{event.year}</span>
-                                            <h4 className="text-lg font-bold mt-1">{event.title}</h4>
-                                            <p className="text-gray-400 text-sm mt-2">{event.desc}</p>
-                                        </div>
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-            );
-        };
+      <div className="mt-auto">
+        <Ticker />
+      </div>
 
-        const Contact = () => {
-            return (
-                <section id="contact" className="py-16 md:py-24 relative overflow-hidden">
-                     {/* Glow effect */}
-                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-purple-900/20 rounded-full blur-[100px] -z-10"></div>
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.2 }}
+        className="absolute bottom-24 md:bottom-16 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-inkfaint">
+        <span className="font-mono text-[10px] tracking-[0.2em] uppercase">Scroll</span>
+        <motion.div animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 1.6 }} className="w-px h-8 bg-gradient-to-b from-inkfaint to-transparent"></motion.div>
+      </motion.div>
+    </section>
+  );
+}
 
-                    <div className="container mx-auto px-4 sm:px-6">
-                        <SectionTitle>Get In Touch</SectionTitle>
+/* ============================== SECTION HEADER ============================== */
 
-                        <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-8 md:gap-12">
-                            {/* Info */}
-                            <div className="space-y-8">
-                                <p className="text-lg text-gray-300">
-                                    I am actively looking for internship opportunities, freelance projects, and entry-level positions. If you have a project in mind or just want to say hi, feel free to reach out!
-                                </p>
+function Eyebrow({ index, children }){
+  return (
+    <div className="flex items-center gap-3 mb-4">
+      <span className="font-mono text-xs text-cyan tracking-widest">{index}</span>
+      <span className="hairline flex-1"></span>
+      <span className="font-mono text-xs text-inkfaint tracking-widest uppercase">{children}</span>
+    </div>
+  );
+}
 
-                                <div className="space-y-4">
-                                    <a href="mailto:manugapulmithgalbadage@gmail.com" className="flex items-center gap-4 p-4 glass rounded-xl hover:bg-white/5 transition-colors group">
-                                        <div className="p-3 bg-blue-500/20 text-blue-400 rounded-lg group-hover:scale-110 transition-transform flex-shrink-0">
-                                            <Icons.Mail size={20} />
-                                        </div>
-                                        <div className="min-w-0">
-                                            <p className="text-sm text-gray-400">Email Me</p>
-                                            <p className="font-medium break-all text-sm sm:text-base">manugapulmithgalbadage@gmail.com</p>
-                                        </div>
-                                    </a>
+/* ============================== ABOUT ============================== */
 
-                                    <a href="https://github.com/Manugapulmith" target="_blank" rel="noreferrer" className="flex items-center gap-4 p-4 glass rounded-xl hover:bg-white/5 transition-colors group">
-                                        <div className="p-3 bg-gray-500/20 text-gray-300 rounded-lg group-hover:scale-110 transition-transform flex-shrink-0">
-                                            <Icons.Github size={20} />
-                                        </div>
-                                        <div className="min-w-0">
-                                            <p className="text-sm text-gray-400">GitHub</p>
-                                            <p className="font-medium break-all">github.com/Manugapulmith</p>
-                                        </div>
-                                    </a>
+function About(){
+  return (
+    <section id="about" className="py-28 md:py-40 container mx-auto px-6">
+      <Eyebrow index="01">About</Eyebrow>
 
-                                    <div className="flex gap-2 sm:gap-4 mt-6">
-                                        <a href="https://wa.me/94776237532" target="_blank" className="flex-1 flex items-center justify-center gap-2 p-3 bg-green-500/10 border border-green-500/30 text-green-400 rounded-lg hover:bg-green-500/20 transition-all">
-                                            <Icons.MessageCircle size={18} /> WhatsApp
-                                        </a>
-                                        <a href="https://t.me/+94776237532" target="_blank" className="flex-1 flex items-center justify-center gap-2 p-3 bg-blue-500/10 border border-blue-500/30 text-blue-400 rounded-lg hover:bg-blue-500/20 transition-all">
-                                            <Icons.Send size={18} /> Telegram
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
+      <motion.h2 initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}
+        className="font-display text-4xl md:text-6xl leading-[1.05] tracking-tight max-w-4xl mb-10">
+        Curious about technology.<br/>
+        <span className="text-inkdim">Obsessed with </span><span className="text-gradient-signal">building.</span>
+      </motion.h2>
 
-                            {/* Form Visual (Mailto trigger) */}
-                            <div className="glass-high p-5 sm:p-8 rounded-2xl space-y-5 sm:space-y-6 border border-white/10">
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-400 mb-2">Your Name</label>
-                                    <input
-                                        type="text"
-                                        id="wa-name"
-                                        className="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-green-500 text-white transition-colors"
-                                        placeholder="Your Name"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-400 mb-2">Message</label>
-                                    <textarea
-                                        id="wa-message"
-                                        rows="4"
-                                        className="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-green-500 text-white transition-colors"
-                                        placeholder="How can I help you?"
-                                    ></textarea>
-                                </div>
-                                <button
-                                    onClick={() => {
-                                        const name = document.getElementById('wa-name').value.trim();
-                                        const message = document.getElementById('wa-message').value.trim();
-                                        if (!name || !message) {
-                                            alert('Please fill in both fields.');
-                                            return;
-                                        }
-                                        const text = `Hi Manuga, I'm ${name}.\n\n${message}`;
-                                        window.open(`https://wa.me/94776237532?text=${encodeURIComponent(text)}`, '_blank');
-                                    }}
-                                    className="w-full py-4 bg-gradient-to-r from-green-600 to-emerald-500 rounded-lg font-bold text-white shadow-lg shadow-green-500/25 hover:shadow-green-500/40 transition-all hover:scale-[1.02] flex items-center justify-center gap-2"
-                                >
-                                    <Icons.MessageCircle size={20} /> Send via WhatsApp
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            );
-        };
+      <div className="grid md:grid-cols-5 gap-12 md:gap-16">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+          className="md:col-span-2 space-y-5 text-inkdim leading-relaxed">
+          <p>I'm a self-taught developer and digital marketer who learns by shipping — a live client website, a string of certifications, and a growing set of tools I actually use, not just study.</p>
+          <p>Frontend development is where I spend most of my time, but I'm equally drawn to what happens after the interface: how data gets read, structured and turned into a decision. That pull toward analytics sits right alongside the design work.</p>
+          <p>Most of what I know, I picked up outside a classroom — through real projects, structured courses, and a habit of finishing what I start.</p>
+        </motion.div>
 
-        const Footer = () => (
-            <footer className="py-8 border-t border-white/10 bg-black text-center">
-                <div className="text-gray-500 text-sm">
-                    &copy; {new Date().getFullYear()} Manuga Pulmith Galbadage. All rights reserved.
-                    <p className="text-sm mt-1">Designed &amp; Built by <span className="text-gradient font-semibold">Manuga Pulmith</span></p>
-                </div>
-            </footer>
-        );
+        <div className="md:col-span-3">
+          <div className="font-mono text-xs uppercase tracking-widest text-inkfaint mb-5">Currently focused on</div>
+          <div className="flex flex-wrap gap-3">
+            {INTERESTS.map((it, i) => (
+              <motion.span key={it}
+                initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+                transition={{ delay: i * 0.06 }}
+                whileHover={{ y: -3, borderColor: 'rgba(94,234,212,0.5)' }}
+                data-cursor="link"
+                className="px-4 py-2.5 rounded-full border border-white/10 text-sm text-ink/90 font-medium">
+                {it}
+              </motion.span>
+            ))}
+          </div>
 
-        const App = () => {
-            return (
-                <div className="min-h-screen text-slate-200 selection:bg-purple-500/30">
-                    <Navbar />
-                    <Hero />
-                    <About />
-                    <Skills />
-                    <Certifications />
-                    <Projects />
-                    <DesignWork />
-                    <Timeline />
-                    <Contact />
-                    <Footer />
-                </div>
-            );
-        };
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+            className="mt-14 pt-10 border-t border-white/8">
+            <div className="font-mono text-xs uppercase tracking-widest text-inkfaint mb-4">My Goal</div>
+            <p className="font-display text-2xl md:text-3xl leading-snug text-ink/95">
+              To secure a challenging role where I can put frontend development and data analytics to work — contributing to real projects, learning from experienced people, and growing into someone a team actually relies on.
+            </p>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+}
 
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
-    </script>
+/* ============================== SKILLS — ORBIT DIAGRAM ============================== */
+
+function SkillOrbit(){
+  const [hover, setHover] = useState(null);
+  const isTouch = useIsTouch();
+  const size = isTouch ? 340 : 620;
+  const cx = size/2, cy = size/2;
+  const ringR = size * 0.36;
+
+  const nodes = useMemo(() => {
+    const out = [];
+    SKILL_GROUPS.forEach((g) => {
+      const spread = 26;
+      g.skills.forEach((s, i) => {
+        const offset = (i - (g.skills.length-1)/2) * spread;
+        const angle = (g.angle + offset) * Math.PI/180;
+        out.push({
+          ...s, group: g.group,
+          x: cx + Math.cos(angle) * ringR,
+          y: cy + Math.sin(angle) * ringR,
+          angle: g.angle + offset,
+        });
+      });
+    });
+    return out;
+  }, [size]);
+
+  return (
+    <div className="relative flex justify-center">
+      <svg viewBox={`0 0 ${size} ${size}`} className="w-full max-w-[620px] h-auto">
+        <circle cx={cx} cy={cy} r={ringR} fill="none" stroke="rgba(255,255,255,0.08)" strokeDasharray="2 6" />
+        <circle cx={cx} cy={cy} r={size*0.12} fill="rgba(94,234,212,0.05)" stroke="rgba(94,234,212,0.3)" />
+        <text x={cx} y={cy-4} textAnchor="middle" className="font-mono" fontSize="11" fill="#5EEAD4" letterSpacing="2">TECH</text>
+        <text x={cx} y={cy+12} textAnchor="middle" className="font-mono" fontSize="11" fill="#5EEAD4" letterSpacing="2">STACK</text>
+
+        {nodes.map((n, i) => (
+          <line key={'l'+i} x1={cx} y1={cy} x2={n.x} y2={n.y}
+            stroke={hover === n.name ? '#5EEAD4' : 'rgba(255,255,255,0.08)'} strokeWidth={hover === n.name ? 1.4 : 1} />
+        ))}
+
+        {nodes.map((n, i) => (
+          <g key={n.name} transform={`translate(${n.x},${n.y})`} data-cursor="link"
+            onMouseEnter={() => setHover(n.name)} onMouseLeave={() => setHover(null)}
+            style={{ cursor: 'pointer' }}>
+            <circle r={hover === n.name ? 26 : 20} fill={hover === n.name ? 'rgba(94,234,212,0.14)' : 'rgba(255,255,255,0.04)'}
+              stroke={hover === n.name ? '#5EEAD4' : 'rgba(255,255,255,0.15)'} style={{ transition: 'all .2s ease' }} />
+            <text textAnchor="middle" dy="4" fontSize={isTouch ? 8.5 : 10} fill={hover === n.name ? '#5EEAD4' : '#eef1f6'} className="font-mono" style={{ pointerEvents: 'none' }}>
+              {n.name.length > 10 && isTouch ? n.name.slice(0,8)+'…' : n.name}
+            </text>
+          </g>
+        ))}
+      </svg>
+
+      <AnimatePresence>
+        {hover && (
+          <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
+            className="absolute bottom-0 left-1/2 -translate-x-1/2 md:left-auto md:right-0 md:translate-x-0 glass rounded-xl px-5 py-4 w-64">
+            {(() => {
+              const n = nodes.find(x => x.name === hover);
+              return (
+                <React.Fragment>
+                  <div className="font-mono text-[10px] tracking-widest text-cyan uppercase mb-1">{n.group}</div>
+                  <div className="font-display text-lg mb-2">{n.name}</div>
+                  <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden mb-1">
+                    <div className="h-full bg-cyan rounded-full" style={{ width: `${n.level}%` }}></div>
+                  </div>
+                  <div className="font-mono text-[10px] text-inkdim num-tag">{n.level}% comfort</div>
+                </React.Fragment>
+              );
+            })()}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+function Skills(){
+  return (
+    <section id="skills" className="py-28 md:py-40 bg-panel/40 border-y border-white/5">
+      <div className="container mx-auto px-6">
+        <Eyebrow index="02">Skills</Eyebrow>
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+          <h2 className="font-display text-4xl md:text-5xl tracking-tight max-w-lg">A small, honest stack — <span className="text-inkdim">still expanding.</span></h2>
+          <p className="text-inkdim max-w-sm text-sm leading-relaxed">Hover a node to see where I actually stand. Nothing here is inflated — some of this is early, and that's the point of showing it.</p>
+        </div>
+        <SkillOrbit />
+      </div>
+    </section>
+  );
+}
+
+/* ============================== CERTIFICATIONS ============================== */
+
+function CertCard({ cert, done, index }){
+  const ref = useRef(null);
+  const [rot, setRot] = useState({ x: 0, y: 0 });
+  const onMove = (e) => {
+    const r = ref.current.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width - 0.5;
+    const py = (e.clientY - r.top) / r.height - 0.5;
+    setRot({ x: py * -8, y: px * 8 });
+  };
+  return (
+    <motion.div ref={ref}
+      initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.05 }}
+      onMouseMove={onMove} onMouseLeave={() => setRot({ x: 0, y: 0 })}
+      animate={{ rotateX: rot.x, rotateY: rot.y }} transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+      className="tilt-card panel rounded-2xl p-6 relative overflow-hidden group" data-cursor="link">
+      <div className={`absolute top-0 left-0 w-full h-[2px] ${done ? 'bg-cyan' : 'bg-amber'}`}></div>
+      <div className="flex items-start justify-between mb-6">
+        <span className={`font-mono text-[10px] uppercase tracking-widest px-2.5 py-1 rounded-full ${done ? 'text-cyan bg-cyan/10 border border-cyan/25' : 'text-amber bg-amber/10 border border-amber/25'}`}>
+          {done ? 'Completed' : 'In Progress'}
+        </span>
+        <span className="font-mono text-[10px] text-inkfaint num-tag">{String(index+1).padStart(2,'0')}</span>
+      </div>
+      <h4 className="font-display text-lg leading-snug mb-2 pr-2">{cert.title}</h4>
+      <p className="text-sm text-inkdim mb-4">{cert.issuer}</p>
+      <p className="font-mono text-xs text-inkfaint">{cert.detail}</p>
+    </motion.div>
+  );
+}
+
+function Certifications(){
+  return (
+    <section id="certifications" className="py-28 md:py-40 container mx-auto px-6">
+      <Eyebrow index="03">Certifications</Eyebrow>
+      <h2 className="font-display text-4xl md:text-5xl tracking-tight max-w-2xl mb-16">An achievement wall, still being built.</h2>
+
+      <div className="mb-14">
+        <div className="font-mono text-xs uppercase tracking-widest text-cyan mb-6">Completed — {CERTS_DONE.length}</div>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {CERTS_DONE.map((c, i) => <CertCard key={c.title} cert={c} done index={i} />)}
+        </div>
+      </div>
+      <div>
+        <div className="font-mono text-xs uppercase tracking-widest text-amber mb-6">Currently Learning — {CERTS_LEARNING.length}</div>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {CERTS_LEARNING.map((c, i) => <CertCard key={c.title} cert={c} done={false} index={i} />)}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ============================== PROJECTS ============================== */
+
+function ProjectMedia({ project }){
+  const [errored, setErrored] = useState(false);
+  return (
+    <div className="relative w-full h-full overflow-hidden placeholder-media">
+      {!errored && (
+        <img src={project.img} alt={project.name} onError={() => setErrored(true)}
+          className="absolute inset-0 w-full h-full object-cover" style={{ objectPosition: project.id === 'siteiq' ? 'top' : 'center' }} />
+      )}
+      {errored && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-inkfaint">
+          <div className="font-mono text-[10px] tracking-widest uppercase">Preview unavailable</div>
+          <div className="font-display text-sm text-ink/70">{project.name}</div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ProjectPanel({ project, index, onOpen }){
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
+  const imgY = useTransform(scrollYProgress, [0, 1], [-24, 24]);
+
+  return (
+    <motion.div ref={ref}
+      initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-80px' }} transition={{ duration: 0.7 }}
+      className={`grid md:grid-cols-2 gap-8 md:gap-14 items-center py-16 md:py-24 ${index % 2 === 1 ? 'md:[&>*:first-child]:order-2' : ''}`}>
+      <div className="relative h-64 md:h-[420px] rounded-2xl overflow-hidden border border-white/10 group cursor-pointer"
+        onClick={() => onOpen(project)} data-cursor="view">
+        <motion.div style={{ y: imgY }} className="absolute inset-0 h-[calc(100%+48px)] -top-6">
+          <ProjectMedia project={project} />
+        </motion.div>
+        <div className="absolute inset-0 bg-gradient-to-t from-void/70 via-transparent to-transparent"></div>
+        <div className="absolute top-4 left-4 flex items-center gap-2">
+          <span className={`font-mono text-[10px] uppercase tracking-widest px-2.5 py-1 rounded-full border ${project.status === 'Live' ? 'text-cyan border-cyan/30 bg-cyan/10' : 'text-amber border-amber/30 bg-amber/10'}`}>
+            <span className="inline-block w-1.5 h-1.5 rounded-full bg-current mr-1.5 align-middle animate-pulse"></span>{project.status}
+          </span>
+        </div>
+      </div>
+
+      <div>
+        <div className="font-mono text-xs text-inkfaint mb-3 num-tag">{project.tag} / {String(PROJECTS.length).padStart(2,'0')}</div>
+        <h3 className="font-display text-3xl md:text-4xl tracking-tight mb-4">{project.name}</h3>
+        <p className="text-inkdim leading-relaxed mb-6 max-w-md">{project.summary}</p>
+        <div className="flex flex-wrap gap-2 mb-8">
+          {project.stack.map(t => <span key={t} className="text-xs font-mono px-3 py-1.5 rounded-full border border-white/10 text-inkdim">{t}</span>)}
+        </div>
+        <div className="flex items-center gap-6">
+          <button onClick={() => onOpen(project)} data-cursor="view" className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-ink group">
+            Case Study <span className="transition-transform group-hover:translate-x-1">→</span>
+          </button>
+          {project.live && (
+            <a href={project.live} target="_blank" rel="noreferrer" data-cursor="open" className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-cyan">
+              Live Site ↗
+            </a>
+          )}
+          {project.code && (
+            <a href={project.code} target="_blank" rel="noreferrer" data-cursor="open" className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-inkdim">
+              Code ↗
+            </a>
+          )}
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+function ProjectModal({ project, onClose }){
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', onKey);
+    document.body.style.overflow = 'hidden';
+    return () => { window.removeEventListener('keydown', onKey); document.body.style.overflow = ''; };
+  }, []);
+  if (!project) return null;
+  return (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[80] bg-void/95 backdrop-blur-md overflow-y-auto">
+      <div className="container mx-auto px-6 py-10 md:py-16 max-w-4xl">
+        <button onClick={onClose} data-cursor="link" className="font-mono text-xs uppercase tracking-widest text-inkdim mb-10 inline-flex items-center gap-2">← Close</button>
+        <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+          <div className="h-56 md:h-80 rounded-2xl overflow-hidden border border-white/10 mb-8">
+            <ProjectMedia project={project} />
+          </div>
+          <div className="font-mono text-xs text-cyan mb-3 uppercase tracking-widest">{project.status}</div>
+          <h3 className="font-display text-4xl md:text-5xl tracking-tight mb-8">{project.name}</h3>
+
+          <div className="grid md:grid-cols-2 gap-8 mb-8">
+            <div><div className="font-mono text-xs uppercase tracking-widest text-inkfaint mb-3">Problem</div><p className="text-inkdim leading-relaxed">{project.problem}</p></div>
+            <div><div className="font-mono text-xs uppercase tracking-widest text-inkfaint mb-3">Solution</div><p className="text-inkdim leading-relaxed">{project.solution}</p></div>
+          </div>
+          <div className="mb-8"><div className="font-mono text-xs uppercase tracking-widest text-inkfaint mb-3">My Contribution</div><p className="text-inkdim leading-relaxed">{project.contribution}</p></div>
+          <div className="flex flex-wrap gap-2 mb-10">
+            {project.stack.map(t => <span key={t} className="text-xs font-mono px-3 py-1.5 rounded-full border border-white/10 text-inkdim">{t}</span>)}
+          </div>
+          <div className="flex gap-4">
+            {project.live && <a href={project.live} target="_blank" rel="noreferrer" data-cursor="open" className="px-6 py-3 bg-ink text-void rounded-full font-mono text-xs uppercase tracking-widest">Visit Live Site</a>}
+            {project.code && <a href={project.code} target="_blank" rel="noreferrer" data-cursor="open" className="px-6 py-3 glass rounded-full font-mono text-xs uppercase tracking-widest">View Code</a>}
+          </div>
+        </motion.div>
+      </div>
+    </motion.div>
+  );
+}
+
+function Projects(){
+  const [open, setOpen] = useState(null);
+  return (
+    <section id="projects" className="py-28 md:py-40 container mx-auto px-6">
+      <Eyebrow index="04">Projects</Eyebrow>
+      <h2 className="font-display text-4xl md:text-5xl tracking-tight max-w-2xl mb-6">Real builds, not exercises.</h2>
+      <p className="text-inkdim max-w-md mb-4">Everything below is either live for a real client, published, or in active development — no throwaway demos.</p>
+
+      <div>
+        {PROJECTS.map((p, i) => <ProjectPanel key={p.id} project={p} index={i} onOpen={setOpen} />)}
+      </div>
+
+      <AnimatePresence>
+        {open && <ProjectModal project={open} onClose={() => setOpen(null)} />}
+      </AnimatePresence>
+    </section>
+  );
+}
+
+/* ============================== DESIGN WORK ============================== */
+
+function Reticle({ active }){
+  const c = active ? 'border-cyan' : 'border-white/25';
+  const base = `absolute w-4 h-4 md:w-5 md:h-5 border-white/25 transition-colors duration-300 ${active ? '!border-cyan' : ''}`;
+  return (
+    <React.Fragment>
+      <span className={`${base} top-3 left-3 border-t border-l`}></span>
+      <span className={`${base} top-3 right-3 border-t border-r`}></span>
+      <span className={`${base} bottom-3 left-3 border-b border-l`}></span>
+      <span className={`${base} bottom-3 right-3 border-b border-r`}></span>
+    </React.Fragment>
+  );
+}
+
+function DesignFrame({ item, index, onOpen }){
+  const [errored, setErrored] = useState(false);
+  const [hover, setHover] = useState(false);
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.08 }}
+      onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
+      onClick={() => onOpen(item)} data-cursor="view"
+      className="relative shrink-0 w-[240px] md:w-[300px] aspect-[4/5] cursor-pointer group">
+
+      {/* frame */}
+      <div className="absolute inset-0 border border-white/10 rounded-sm overflow-hidden bg-panel">
+        <div className="absolute inset-0 placeholder-media">
+          {!errored && (
+            <img src={item.img} alt={item.title} onError={() => setErrored(true)}
+              className="absolute inset-0 w-full h-full object-cover grayscale-[35%] group-hover:grayscale-0 transition-all duration-500 group-hover:scale-[1.03]" />
+          )}
+          {errored && (
+            <div className="absolute inset-0 flex items-center justify-center text-inkfaint font-mono text-[10px] uppercase tracking-widest">No Preview</div>
+          )}
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-t from-void/90 via-void/10 to-transparent"></div>
+
+        {/* scan sweep on hover */}
+        <motion.div aria-hidden="true"
+          initial={false} animate={{ top: hover ? '100%' : '-20%' }} transition={{ duration: 0.8, ease: 'easeInOut' }}
+          className="absolute left-0 right-0 h-10 pointer-events-none"
+          style={{ background: 'linear-gradient(to bottom, transparent, rgba(94,234,212,0.16), transparent)' }}></motion.div>
+      </div>
+
+      <Reticle active={hover} />
+
+      <div className="absolute top-5 left-5 font-mono text-[10px] text-inkfaint tracking-widest num-tag">
+        SPEC {String(index + 1).padStart(2, '0')}
+      </div>
+      <div className={`absolute top-5 right-5 font-mono text-[10px] tracking-widest transition-colors duration-300 ${hover ? 'text-cyan' : 'text-inkfaint'}`}>
+        {hover ? 'EXPAND ↗' : '1:1'}
+      </div>
+
+      <div className="absolute bottom-5 left-5 right-5">
+        <span className="text-[10px] font-mono uppercase tracking-widest text-cyan">{item.tag}</span>
+        <p className="font-display text-base md:text-lg mt-1 text-ink leading-snug">{item.title}</p>
+      </div>
+    </motion.div>
+  );
+}
+
+function Lightbox({ item, onClose }){
+  const [errored, setErrored] = useState(false);
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
+  if (!item) return null;
+  const idx = DESIGN_WORK.findIndex(d => d.title === item.title);
+  return (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+      onClick={onClose} className="fixed inset-0 z-[80] bg-void/95 backdrop-blur-md flex items-center justify-center p-6" data-cursor="link">
+      <motion.div initial={{ scale: 0.94, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} onClick={(e) => e.stopPropagation()} className="max-w-md w-full relative">
+        <div className="relative rounded-sm overflow-hidden border border-white/10 placeholder-media aspect-square">
+          {!errored && <img src={item.img} alt={item.title} onError={() => setErrored(true)} className="w-full h-full object-cover" />}
+          <Reticle active={true} />
+        </div>
+        <div className="flex items-center justify-between mt-5 font-mono text-[10px] text-inkfaint tracking-widest uppercase">
+          <span>SPEC {String(idx + 1).padStart(2, '0')} / {String(DESIGN_WORK.length).padStart(2, '0')}</span>
+          <span>FORMAT 1:1</span>
+        </div>
+        <div className="mt-3">
+          <span className="text-[10px] font-mono uppercase tracking-widest text-cyan">{item.tag}</span>
+          <p className="font-display text-2xl mt-1">{item.title}</p>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+function DesignWork(){
+  const [open, setOpen] = useState(null);
+  return (
+    <section id="design" className="py-28 md:py-40 bg-panel/40 border-y border-white/5">
+      <div className="container mx-auto px-6">
+        <Eyebrow index="05">Design Work</Eyebrow>
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
+          <h2 className="font-display text-4xl md:text-5xl tracking-tight max-w-lg">Promotional design, filed as specimens.</h2>
+          <p className="text-inkdim max-w-sm text-sm leading-relaxed">Layout and message work made for real O/L Science tuition classes — outside code, same attention to hierarchy.</p>
+        </div>
+      </div>
+
+      <div className="overflow-x-auto no-scrollbar pb-4">
+        <div className="flex gap-6 px-6 md:px-[max(1.5rem,calc((100vw-1200px)/2))] w-max">
+          {DESIGN_WORK.map((item, i) => <DesignFrame key={item.title} item={item} index={i} onOpen={setOpen} />)}
+        </div>
+      </div>
+
+      <AnimatePresence>{open && <Lightbox item={open} onClose={() => setOpen(null)} />}</AnimatePresence>
+    </section>
+  );
+}
+
+/* ============================== TERMINAL ============================== */
+
+function Terminal(){
+  const [lines, setLines] = useState([]);
+  const ref = useRef(null);
+  const inView = useRef(false);
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !inView.current) {
+        inView.current = true;
+        const sequence = ["manuga@portfolio:~$ whoami", "→ Frontend Developer", "→ Python Learner", "→ Data Analytics Enthusiast", "→ Digital Creator", "manuga@portfolio:~$ ▌"];
+        sequence.forEach((l, i) => setTimeout(() => setLines(prev => [...prev, l]), i * 420));
+      }
+    }, { threshold: 0.4 });
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, []);
+
+  return (
+    <section ref={ref} className="py-28 md:py-40 container mx-auto px-6">
+      <Eyebrow index="06">Terminal</Eyebrow>
+      <div className="max-w-2xl mx-auto">
+        <div className="panel rounded-2xl overflow-hidden">
+          <div className="flex items-center gap-2 px-5 py-3 border-b border-white/8">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f56]"></span>
+            <span className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]"></span>
+            <span className="w-2.5 h-2.5 rounded-full bg-[#27c93f]"></span>
+            <span className="font-mono text-[11px] text-inkfaint ml-3">zsh — portfolio</span>
+          </div>
+          <div className="p-6 font-mono text-sm space-y-2 min-h-[220px]">
+            {lines.map((l, i) => (
+              <div key={i} className={l.startsWith('→') ? 'text-cyan pl-2' : 'text-ink/90'}>{l}</div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ============================== JOURNEY ============================== */
+
+function Journey(){
+  const scrollerRef = useRef(null);
+  return (
+    <section id="journey" className="py-28 md:py-40 bg-panel/40 border-y border-white/5">
+      <div className="container mx-auto px-6">
+        <Eyebrow index="07">Journey</Eyebrow>
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
+          <h2 className="font-display text-4xl md:text-5xl tracking-tight max-w-lg">Flight plan so far.</h2>
+          <p className="font-mono text-xs text-inkfaint uppercase tracking-widest">Scroll horizontally →</p>
+        </div>
+      </div>
+
+      <div ref={scrollerRef} className="overflow-x-auto no-scrollbar pb-6">
+        <div className="flex gap-6 px-6 md:px-[max(1.5rem,calc((100vw-1200px)/2))] w-max">
+          {JOURNEY.map((j, i) => (
+            <motion.div key={j.phase}
+              initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-40px' }} transition={{ delay: i * 0.06 }}
+              className={`w-[280px] shrink-0 rounded-2xl p-6 border ${j.phase === '—' ? 'border-cyan/40 bg-cyan/5' : 'panel'}`}>
+              <div className="flex items-center justify-between mb-8">
+                <span className={`font-mono text-2xl num-tag ${j.phase === '—' ? 'text-cyan' : 'text-inkfaint'}`}>{j.phase}</span>
+                {j.phase === '—' && <span className="font-mono text-[10px] uppercase tracking-widest text-cyan px-2 py-1 rounded-full border border-cyan/30">Now</span>}
+              </div>
+              <h4 className="font-display text-lg mb-2">{j.title}</h4>
+              <p className="text-sm text-inkdim leading-relaxed">{j.desc}</p>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ============================== CONTACT ============================== */
+
+function Contact(){
+  const [name, setName] = useState('');
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
+
+  const send = () => {
+    if (!name.trim() || !message.trim()) { setError('Please fill in both fields.'); return; }
+    setError('');
+    const text = `Hi Manuga, I'm ${name}.\n\n${message}`;
+    window.open(`${PROFILE.whatsapp}?text=${encodeURIComponent(text)}`, '_blank');
+  };
+
+  return (
+    <section id="contact" className="py-28 md:py-40 relative overflow-hidden">
+      <div className="absolute inset-0 -z-10" style={{ background: 'radial-gradient(ellipse 50% 40% at 50% 20%, rgba(94,234,212,0.08), transparent 60%)' }}></div>
+      <div className="container mx-auto px-6">
+        <Eyebrow index="08">Contact</Eyebrow>
+        <h2 className="font-display text-4xl md:text-6xl tracking-tight max-w-3xl mb-16 leading-[1.05]">
+          Let's build<br/>something <span className="text-gradient-signal">meaningful.</span>
+        </h2>
+
+        <div className="grid md:grid-cols-2 gap-10 md:gap-16">
+          <div className="space-y-4">
+            <p className="text-inkdim leading-relaxed mb-8 max-w-md">Open to internships, freelance projects and entry-level roles. If something here connects, reach out directly.</p>
+
+            <a href={`mailto:${PROFILE.email}`} data-cursor="link" className="flex items-center justify-between p-5 glass rounded-xl hover:bg-white/5 transition-colors group">
+              <div><div className="font-mono text-[10px] uppercase tracking-widest text-inkfaint mb-1">Email</div><div className="text-sm break-all">{PROFILE.email}</div></div>
+              <span className="text-inkfaint group-hover:text-cyan group-hover:translate-x-1 transition-all">→</span>
+            </a>
+            <a href={PROFILE.github} target="_blank" rel="noreferrer" data-cursor="open" className="flex items-center justify-between p-5 glass rounded-xl hover:bg-white/5 transition-colors group">
+              <div><div className="font-mono text-[10px] uppercase tracking-widest text-inkfaint mb-1">GitHub</div><div className="text-sm">github.com/Manugapulmith</div></div>
+              <span className="text-inkfaint group-hover:text-cyan group-hover:translate-x-1 transition-all">↗</span>
+            </a>
+            <div className="flex gap-4 pt-2">
+              <a href={PROFILE.whatsapp} target="_blank" rel="noreferrer" data-cursor="open" className="flex-1 text-center py-3 rounded-lg border border-cyan/25 bg-cyan/5 text-cyan font-mono text-xs uppercase tracking-widest hover:bg-cyan/10 transition-colors">WhatsApp</a>
+              <a href={PROFILE.telegram} target="_blank" rel="noreferrer" data-cursor="open" className="flex-1 text-center py-3 rounded-lg border border-violet/25 bg-violet/5 text-violet font-mono text-xs uppercase tracking-widest hover:bg-violet/10 transition-colors">Telegram</a>
+            </div>
+          </div>
+
+          <div className="glass rounded-2xl p-6 md:p-8 space-y-5">
+            <div>
+              <label className="block font-mono text-[10px] uppercase tracking-widest text-inkfaint mb-2">Your Name</label>
+              <input value={name} onChange={e => setName(e.target.value)} type="text" placeholder="Jane Silva"
+                className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-cyan text-ink transition-colors" />
+            </div>
+            <div>
+              <label className="block font-mono text-[10px] uppercase tracking-widest text-inkfaint mb-2">Message</label>
+              <textarea value={message} onChange={e => setMessage(e.target.value)} rows="4" placeholder="How can I help?"
+                className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-cyan text-ink transition-colors resize-none"></textarea>
+            </div>
+            {error && <p className="text-xs text-amber font-mono">{error}</p>}
+            <button onClick={send} data-cursor="view" className="w-full py-4 bg-cyan text-void rounded-lg font-mono text-xs uppercase tracking-widest font-semibold hover:opacity-90 transition-opacity">
+              Send via WhatsApp
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ============================== FOOTER ============================== */
+
+function Footer(){
+  return (
+    <footer className="border-t border-white/8 py-10">
+      <div className="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div>
+          <div className="font-display font-semibold">Manuga Pulmith Galbadage</div>
+          <div className="font-mono text-[11px] text-inkfaint mt-1">Designed &amp; built by Manuga Pulmith</div>
+        </div>
+        <div className="flex gap-6 font-mono text-[11px] uppercase tracking-widest text-inkdim">
+          {SECTIONS.map(s => <a key={s.id} href={`#${s.id}`} data-cursor="link" className="hover:text-cyan transition-colors">{s.label}</a>)}
+        </div>
+        <div className="flex gap-4 font-mono text-[11px] text-inkfaint">
+          <a href={PROFILE.github} target="_blank" rel="noreferrer" data-cursor="open">GitHub</a>
+          <a href={`mailto:${PROFILE.email}`} data-cursor="link">Email</a>
+        </div>
+        <div className="font-mono text-[11px] text-inkfaint num-tag">© {new Date().getFullYear()}</div>
+      </div>
+    </footer>
+  );
+}
+
+/* ============================== APP ============================== */
+
+function App(){
+  const [loading, setLoading] = useState(true);
+  return (
+    <div className="min-h-screen">
+      <CustomCursor />
+      <AnimatePresence>{loading && <Loader onDone={() => setLoading(false)} />}</AnimatePresence>
+      {!loading && (
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6 }}>
+          <Nav />
+          <Hero />
+          <About />
+          <Skills />
+          <Certifications />
+          <Projects />
+          <DesignWork />
+          <Terminal />
+          <Journey />
+          <Contact />
+          <Footer />
+        </motion.div>
+      )}
+    </div>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+</script>
 </body>
 </html>
