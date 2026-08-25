@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://manugapulmith.github.io/Portfolio/sitemap.xml
