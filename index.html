@@ -4,12 +4,40 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Manuga Pulmith Galbadage — Frontend Developer &amp; Data Analytics Learner</title>
-<meta name="description" content="Portfolio of Manuga Pulmith Galbadage — aspiring frontend developer, data analytics learner and digital creator based in Sri Lanka. Projects, skills, certifications and design work.">
+<meta name="description" content="Manuga Pulmith Galbadage — aspiring frontend developer, data analytics learner and digital creator based in Kalutara, Sri Lanka. Portfolio featuring web development projects, certifications and design work.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://manugapulmith.github.io/Portfolio/">
+
 <meta property="og:title" content="Manuga Pulmith Galbadage — Portfolio">
 <meta property="og:description" content="Aspiring frontend developer, data analytics learner and digital creator. See projects, skills and certifications.">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://manugapulmith.github.io/Portfolio/">
+<meta property="og:site_name" content="Manuga Pulmith Galbadage">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Manuga Pulmith Galbadage — Portfolio">
+<meta name="twitter:description" content="Aspiring frontend developer, data analytics learner and digital creator.">
 <meta name="theme-color" content="#05060a">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Manuga Pulmith Galbadage",
+  "alternateName": ["Manuga", "Manuga Pulmith", "Manuga Galbadage", "Manuga Pulmith Galbadage"],
+  "url": "https://manugapulmith.github.io/Portfolio/",
+  "jobTitle": "Frontend Developer & Data Analytics Learner",
+  "description": "Aspiring frontend developer, data analytics learner and digital creator based in Kalutara, Sri Lanka.",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Kalutara",
+    "addressCountry": "LK"
+  },
+  "sameAs": [
+    "https://github.com/Manugapulmith"
+  ],
+  "knowsAbout": ["Frontend Development", "HTML", "CSS", "JavaScript", "React", "Python", "Data Analytics", "Digital Marketing", "UI/UX"]
+}
+</script>
 
 <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
 <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
@@ -744,7 +772,7 @@ function SkillOrbit(){
 
   return (
     <div className="relative flex justify-center">
-      <svg viewBox={`0 0 ${size} ${size}`} className="w-full max-w-[620px] h-auto">
+      <svg viewBox={`0 0 ${size} ${size}`} onClick={() => setHover(null)} className="w-full max-w-[620px] h-auto">
         <circle cx={cx} cy={cy} r={ringR} fill="none" stroke="rgba(255,255,255,0.08)" strokeDasharray="2 6" />
         <circle cx={cx} cy={cy} r={size*0.12} fill="rgba(94,234,212,0.05)" stroke="rgba(94,234,212,0.3)" />
         <text x={cx} y={cy-4} textAnchor="middle" className="font-mono" fontSize="11" fill="#5EEAD4" letterSpacing="2">TECH</text>
@@ -757,10 +785,11 @@ function SkillOrbit(){
 
         {nodes.map((n, i) => (
           <g key={n.name} transform={`translate(${n.x},${n.y})`} data-cursor="link"
-            onMouseEnter={() => setHover(n.name)} onMouseLeave={() => setHover(null)}
-            onClick={() => setHover(prev => prev === n.name ? null : n.name)}
+            onMouseEnter={isTouch ? undefined : () => setHover(n.name)}
+            onMouseLeave={isTouch ? undefined : () => setHover(null)}
+            onClick={(e) => { e.stopPropagation(); setHover(prev => prev === n.name ? null : n.name); }}
             style={{ cursor: 'pointer' }}>
-            <circle r={hover === n.name ? 26 : 20} fill={hover === n.name ? 'rgba(94,234,212,0.14)' : 'rgba(255,255,255,0.04)'}
+            <circle r={hover === n.name ? 26 : (isTouch ? 23 : 20)} fill={hover === n.name ? 'rgba(94,234,212,0.14)' : 'rgba(255,255,255,0.04)'}
               stroke={hover === n.name ? '#5EEAD4' : 'rgba(255,255,255,0.15)'} style={{ transition: 'all .2s ease' }} />
             <text textAnchor="middle" dy="4" fontSize={isTouch ? 8.5 : 10} fill={hover === n.name ? '#5EEAD4' : '#eef1f6'} className="font-mono" style={{ pointerEvents: 'none' }}>
               {n.name.length > 10 && isTouch ? n.name.slice(0,8)+'…' : n.name}
