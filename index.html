@@ -488,10 +488,16 @@ function Nav(){
                 </motion.a>
               ))}
             </div>
-            <div style={{ paddingBottom: 'max(2.5rem, env(safe-area-inset-bottom))' }} className="px-8 flex gap-4 font-mono text-xs uppercase tracking-widest text-inkdim">
-              <a href={PROFILE.github} target="_blank" rel="noreferrer">GitHub</a>
-              <a href={`mailto:${PROFILE.email}`}>Email</a>
-              <a href={PROFILE.whatsapp} target="_blank" rel="noreferrer">WhatsApp</a>
+            <div style={{ paddingBottom: 'max(1.5rem, env(safe-area-inset-bottom))' }} className="px-8 flex flex-col gap-4">
+              <a href={PROFILE.cv} target="_blank" rel="noreferrer" onClick={() => setMenuOpen(false)}
+                className="flex items-center justify-center gap-2 w-full py-4 bg-cyan text-void rounded-full font-mono text-xs uppercase tracking-widest font-semibold">
+                Download Resume ↓
+              </a>
+              <div className="flex justify-center gap-6 font-mono text-xs uppercase tracking-widest text-inkdim">
+                <a href={PROFILE.github} target="_blank" rel="noreferrer">GitHub</a>
+                <a href={`mailto:${PROFILE.email}`}>Email</a>
+                <a href={PROFILE.whatsapp} target="_blank" rel="noreferrer">WhatsApp</a>
+              </div>
             </div>
           </motion.div>
         )}
@@ -559,7 +565,16 @@ function HeroOrb(){
       mx = ((e.clientX - r.left) / r.width - 0.5) * 2;
       my = ((e.clientY - r.top) / r.height - 0.5) * 2;
     };
+    const onTouch = (e) => {
+      if (!e.touches || !e.touches[0]) return;
+      const r = mount.getBoundingClientRect();
+      const t = e.touches[0];
+      mx = ((t.clientX - r.left) / r.width - 0.5) * 2;
+      my = ((t.clientY - r.top) / r.height - 0.5) * 2;
+    };
     window.addEventListener('mousemove', onMove);
+    window.addEventListener('touchmove', onTouch, { passive: true });
+    window.addEventListener('touchstart', onTouch, { passive: true });
 
     let raf;
     const animate = () => {
@@ -584,6 +599,8 @@ function HeroOrb(){
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('touchmove', onTouch);
+      window.removeEventListener('touchstart', onTouch);
       window.removeEventListener('resize', onResize);
       renderer.dispose();
       if (mount.contains(renderer.domElement)) mount.removeChild(renderer.domElement);
@@ -648,6 +665,11 @@ function Hero(){
             <Magnetic>
               <a href="#projects" data-cursor="view" className="inline-flex items-center gap-2 bg-ink text-void font-mono text-xs uppercase tracking-[0.12em] px-6 py-4 rounded-full hover:bg-cyan transition-colors">
                 View Work <span>→</span>
+              </a>
+            </Magnetic>
+            <Magnetic>
+              <a href={PROFILE.cv} target="_blank" rel="noreferrer" data-cursor="open" className="inline-flex items-center gap-2 glass font-mono text-xs uppercase tracking-[0.12em] px-6 py-4 rounded-full text-ink hover:bg-white/10 transition-colors">
+                Resume <span>↓</span>
               </a>
             </Magnetic>
             <Magnetic>
